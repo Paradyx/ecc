@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <docopt.h>
+#include "docopt/docopt.h"
 
 int main(int argc, char const *argv[]) {
 
