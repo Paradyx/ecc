@@ -1,7 +1,5 @@
-#include <iostream>
-#include <string>
-#include "docopt/docopt.h"
+#include "cmdline/cmdline.hpp"
 
 int main(int argc, char const *argv[]) {
-
+  cmdline::cmdline(argc, argv);
 }
