@@ -2,6 +2,8 @@
 #include <string>
 #include "docopt/docopt.h"
 
+#include "debug.hpp"
+
 #include "cmdline/cmdline_box.hpp"
 #include "cmdline/cmdline_box_open.hpp"
 #include "cmdline/cmdline_encrypt.hpp"
@@ -15,7 +17,7 @@ namespace cmdline{
   R"(Eliptic curve cryptography with M-511 proposed by D.F. Aranha et al.
   WARNING UNSECURE! DO NOT USE IN THE REAL WORLD, FOR EDUCATIONAL PURPOSES ONLY!
 
-    Usage: ecc [--version] [--help] <commands> [<args>...]
+    Usage: ecc [--version] [--help] [--debug] <command> [<args>...]
 
     Options:
       -d --debug    show debug informations
@@ -24,6 +26,8 @@ namespace cmdline{
 
     Available ecc commands are:
       keygen        generate a new key pair.
+      box           encrypt and authenticate a message
+      box-open      decrypt and authenticate a message
       encrypt       encrypt a message to a known public key.
       decrypt       decrypt a message with a secret key.
       sign          sign a message with a secret key.
@@ -41,16 +45,28 @@ namespace cmdline{
                         "Eliptic Curve Cryptogryphy ", // version string
                         true); //options_first
 
+    if (args["--debug"].asBool() == true)
+      Debug::SetLevel(true);
+    else
+      Debug::SetLevel(false);
+
+    Debug::Write("Debug on");
+
+
     for(auto const& arg : args) {
         std::cout << arg.first <<  arg.second << std::endl;
     }
 
-    std::string command = args["<commands>"].asString();
+    std::string command = args["<command>"].asString();
     std::vector<std::string> subargs = args["<args>"].asStringList() ;
     subargs.insert(subargs.begin(), command);
 
     if (command == "keygen")
       cmdline_keygen(subargs);
+    else if (command == "box")
+      cmdline_box(subargs);
+    else if (command == "box-open")
+      cmdline_box_open(subargs);
     else if (command == "encrypt")
       cmdline_encrypt(subargs);
     else if (command == "decrypt")
