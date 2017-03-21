@@ -1,6 +1,6 @@
 #include "cmdline/cmdline_box_open.hpp"
 
-#include "docopt/docopt.h"
+#include "docopt.h"
 #include <string>
 #include <vector>
 

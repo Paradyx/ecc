@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "docopt/docopt.h"
+#include "docopt.h"
 
 #include "debug.hpp"
 

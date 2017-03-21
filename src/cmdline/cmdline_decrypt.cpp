@@ -1,6 +1,6 @@
 #include "cmdline/cmdline_decrypt.hpp"
 
-#include "docopt/docopt.h"
+#include "docopt.h"
 #include <string>
 #include <vector>
 
