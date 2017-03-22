@@ -6,10 +6,9 @@
 
 namespace cmdline {
   static const char USAGE_ENCRYPT[] =
-  R"(Usage: ecc encrypt [-h] [-d] --key KEYFILE [--file FILE | --message MESSAGE]
+  R"(Usage: ecc encrypt [-h] --key KEYFILE [--file FILE | --message MESSAGE]
 
     Options:
-      -d --debug      show debug informations
       -h --help       show this screen
 
       -k key          provide the public key for the encryption
@@ -27,4 +26,5 @@ namespace cmdline {
                           "", // version string
                           false); //options_first
   }
+
 }

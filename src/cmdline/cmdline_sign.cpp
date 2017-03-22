@@ -6,7 +6,7 @@
 
 namespace cmdline {
   static const char USAGE_SIGN[] =
-  R"(Usage: ecc sign [--help]
+  R"(Usage: ecc sign [-h]
 
     Options:
       -h --help     Show this screen.

@@ -6,7 +6,7 @@
 
 namespace cmdline {
   static const char USAGE_DECRYPT[] =
-  R"(Usage: ecc decrypt [--help]
+  R"(Usage: ecc decrypt [-h]
 
     Options:
       -h --help     Show this screen.

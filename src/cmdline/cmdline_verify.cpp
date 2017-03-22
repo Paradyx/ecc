@@ -6,7 +6,7 @@
 
 namespace cmdline {
   static const char USAGE_VERIFY[] =
-  R"(Usage: ecc verify [--help]
+  R"(Usage: ecc verify [-h]
 
     Options:
       -h --help     Show this screen.

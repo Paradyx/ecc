@@ -58,7 +58,8 @@ namespace cmdline{
     }
 
     std::string command = args["<command>"].asString();
-    std::vector<std::string> subargs = args["<args>"].asStringList() ;
+    std::vector<std::string> subargs = args["<args>"].asStringList();
+    //std::vector<std::string> subargs;
     subargs.insert(subargs.begin(), command);
 
     if (command == "keygen")
