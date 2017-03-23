@@ -1,0 +1,400 @@
+% Dieser Text ist urheberrechtlich geschützt
+% Er stellt einen Auszug eines von mir erstellten Referates dar
+% und darf nicht gewerblich genutzt werden
+% die private bzw. Studiums bezogen Nutzung ist frei
+% Nov. 2007
+% Autor: Sascha Frank 
+% Universität Freiburg 
+% www.informatik.uni-freiburg.de/~frank/
+\documentclass{beamer}
+\setbeamertemplate{navigation symbols}{}
+\usetheme{Bergen}
+%\usepackage{ngerman}
+\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{makecell}
+\renewcommand\theadalign{cb}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+
+%\usepackage{cite}
+\usepackage{caption}
+
+\usepackage[style=numeric]{biblatex}
+\addbibresource{literature.bib}
+
+\usefonttheme[onlymath]{serif}
+
+\usepackage{graphics}
+
+\begin{document}
+\title{Implementation of an ECC with M-511} 
+\subtitle{CS488 - Introduction to IT Security}
+\author{Yoann Kehler, Duong Ta}
+\date{\today} 
+
+\begin{frame}
+\titlepage
+\end{frame} 
+
+\begin{frame}
+\frametitle{Table of Contents}\tableofcontents
+\end{frame} 
+
+\section{Non-ECC}
+\subsection{The Discrete Logarithm Problem}
+\begin{frame}{Eliptic Curves Cryptography}
+	Let $G$ be finite abelian Group with an Addition \\
+	\[(P,Q) \mapsto P + Q\]
+	An element $P \in G$ generates a cyclic Subgroup with order $n$\\
+	\[\langle P \rangle = \{kP : k \in \mathbb{Z} \}\]\\ \vspace{0.5cm}
+	\textbf{The Discrete Logarithm Problem (DLP)}: \\
+	For a given $G$, $P\in G$, $n = ord(P)$ and $Q \in \langle P \rangle$ determine the element $k \in \mathbb{Z}/n\mathbb{Z}$ s.t. \\
+	\[Q=kP\]
+	\cite{werner2013elliptische}
+\end{frame}
+\begin{frame}
+	Finding a abelian Group s.t. the DLP becomes \textit{difficult} to solve. This implies $n$ must be big enough. \\
+	\vspace{2cm}
+	$\mathbb{F}_p^\times$:
+	\begin{itemize}
+		\item Digital Signature Algorithm (DSA)
+		\item Diffie-Hellman (DH)
+		\item El-Gamal
+		
+	\end{itemize}
+\end{frame}
+\subsection{Key size and Handshake of RSA and DSA}
+\begin{frame}
+	\frametitle{RSA \& DSA Keysize}
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\thead{Security \\strength}& \thead{Symmetric \\algorithm} & \thead{FFC(DSA)}& \thead{IFC(RSA)} \\ \hline
+			$\leq 80$ & 2TDEA & \makecell{$L=1024$\\$N=160$} & $k=1024$ \\ \hline  
+			$112$ & 3TDEA & \makecell{$L=2048$\\$N=224$} & $k=2048$ \\ \hline  
+			$128$ & AES-128 & \makecell{$L=3072$\\$N=256$} & $k=3072$ \\ \hline  
+			$192$ & AES-192 & \makecell{$L=7680$\\$N=384$} & $k=7680$ \\ \hline  
+			$256$ & AES-256 & \makecell{$L=15360$\\$N=512$} & $k=15360$ \\ \hline  
+		\end{tabular}
+		\captionof{table}{Security Strength of DSA and RSA from NIST\cite{barker2016recommendation}}
+	\end{center}
+	
+\end{frame}
+\begin{frame}
+	\frametitle{Handshake size with RSA}
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\thead{RSA \\key \\(bits)}& \thead{X.509 \\certificate \\(bytes)} & \thead{Handshake,\\ no chain \\(bytes)}& \thead{Handshake, \\chain \\(bytes)} \\ \hline
+			\makecell{$1024$} & $ 589 $ & $ 1225 $ & $ 2073 $ \\ \hline  
+			\makecell{$2048$} & $ 845 $ & $ 1481 $ & $ 2585 $ \\ \hline  
+			\makecell{$3072$} & $ 1101 $ & $ 1737 $ & $ 3097 $ \\ \hline  
+			\makecell{$4096$} & $ 1357 $ & $ 1993 $ &  \\ \hline
+		\end{tabular} 
+		\captionof{table}{Sizes of handshakes and certificates in with RSA\cite{cuppens2015fps}}
+	\end{center}
+	
+\end{frame}
+\section{Eliptic Curves Cryptography}
+\subsection{Eliptic Curves}
+\begin{frame}
+	\frametitle{Groups over eliptic Curves}
+	\begin{figure}
+		\centering
+		\def\svgwidth{\columnwidth}
+		\input{img/ECClines-3.pdf_tex}
+		\caption{Two eliptic curves over $\mathbb{R}$ \cite{wikiYassineMrabet}}
+	\end{figure}
+	\begin{itemize}
+		\item Rounding errors
+		\item Not suitable for cryptography
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Eliptic curves over finite fields}
+	\begin{itemize}
+		\item Make it discrete!
+		\item "Random" jumps through a set of points
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\def\svgwidth{\columnwidth}
+		\input{img/Elliptic_curve_on_Z61.pdf_tex}
+		\caption{Set of affine points of elliptic curve $y^2 = x^3 - x$ over finite field $\mathbb{F}_{61}$.}
+	\end{figure}
+\end{frame}
+\begin{frame}
+	\frametitle{ECC key sizes}
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			\thead{Security \\strength}& \thead{IFC(RSA)} & \thead{ECC} \\ \hline
+			\makecell{$\leq 80$} & $k=1024$ & $f=160-223$ \\ \hline  
+			\makecell{$112$} & $k=2048$ & $f=224-255$ \\ \hline  
+			\makecell{$128$} & $k=3072$ & $f=256-383$ \\ \hline  
+			\makecell{$192$} & $k=7680$ & $f=384-511$ \\ \hline  
+			\makecell{$256$} & $k=15360$ & $f=512+$ \\ \hline  
+		\end{tabular}
+		\captionof{table}{Security Strength of ECC compared to RSA\cite{barker2016recommendation}}
+	\end{center}
+\end{frame}
+\subsection{Key size and Handshake of ECC}
+\begin{frame}
+	\frametitle{Handshake size of ECC compared to RSA}
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\thead{RSA \\key \\(bits)}& \thead{X.509 \\certificate \\(bytes)} & \thead{Handshake,\\ no chain \\(bytes)}& \thead{Handshake, \\chain \\(bytes)} \\ \hline
+			$1024$ & $ 589 $ & $ 1225 $ & $ 2073 $ \\ \hline  
+			$2048$ & $ 845 $ & $ 1481 $ & $ 2585 $ \\ \hline  
+			$3072$ & $ 1101 $ & $ 1737 $ & $ 3097 $ \\ \hline  
+			$4096$ & $ 1357 $ & $ 1993 $ &  \\ \hline
+		\end{tabular} 
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\thead{ECC \\key \\(bits)}& \thead{X.509 \\certificate \\(bytes)} & \thead{Handshake,\\ no chain \\(bytes)}& \thead{Handshake, \\chain \\(bytes)} \\ \hline
+			$160$ & $ 291 $ & $ 959 $ & $ 1277 $ \\ \hline  
+			$224$ & $ 315 $ & $ 983 $ & $ 1317 $ \\ \hline  
+			$256$ & $ 331 $ & $ 999 $ & $ 1349 $ \\ \hline  
+			$288$ & $ 347 $ & $ 1015 $ &  \\ \hline
+		\end{tabular} 
+		\captionof{table}{Sizes of handshakes and certificates with ECC and RSA\cite{cuppens2015fps}}
+	\end{center}
+	
+\end{frame}
+\subsection{NIST-Curves}
+\begin{frame}
+	\frametitle{NIST-Curves}
+	The National Institute for Standards and Technology (NIST) proposed some cryptographic curves in 1999.
+	\begin{itemize}
+		\item Special characteristics for efficiency
+		\item Chosen ''randomly''
+	\end{itemize}
+	\vspace{1cm}
+	\textbf{ECC is not as hard as ECDLP!} \\
+	Some attacks can be performed on special classes of curves.
+	\begin{itemize}
+		\item Surprise! Attacks on NIST-Curves have been found
+		\item NIST-Curves were probably not chosen at random
+	\end{itemize}
+	\cite{bernstein2016safecurves}
+\end{frame}
+
+\subsection{Curve25519}
+\begin{frame}
+	\frametitle{Alternatives: Curve25519, M-511, M-383, ...}
+	Curve25519:
+	\begin{itemize}
+		\item Proposed by Daniel Bernstein \cite{bernstein2006curve25519}
+		\item No security flaws found until today
+		\item De facto standard implemented in most libraries
+	\end{itemize}
+	\vspace{1cm}
+	M-511, M-383, M-221, E-521, E-382, E-222:
+	\begin{itemize}
+		\item Proposed by Diego F. Aranha et. al. \cite{cryptoeprint:2013:647}
+		\item No security flaws found until today
+	\end{itemize}
+\end{frame}
+
+\section{Term Project}
+\subsection{Goals for this semester}
+	\begin{frame}
+		\frametitle{Term Project}
+		\textbf{Goals for the semester:}
+		\begin{itemize}
+			\item understand the maths behind ECC
+			\item implement a library with M-511 with:
+			\begin{itemize}
+				\item key generation
+				\item en-/decryption
+				\item signature and verification
+			\end{itemize}
+		\end{itemize}
+	
+		\vspace{0.8cm}
+		''Never implement your own crypto'' \\
+		\vspace{0.8cm}
+		\textbf{We will not:}
+		\begin{itemize}
+			\item Implement a library for real-world use
+			\item Care about side-channel attacks
+		\end{itemize}
+	\end{frame}
+\section{References}
+
+%\section{Abschnitt Nr. 1} 
+%\begin{frame}
+%\frametitle{Titel} 
+%Die einzelnen Frames sollte einen Titel haben 
+%\end{frame}
+%\subsection{Unterabschnitt Nr.1.1  }
+%\begin{frame} 
+%Denn ohne Titel fehlt ihnen was
+%\end{frame}
+%
+%
+%\section{Abschnitt Nr. 2} 
+%\subsection{Listen I}
+%\begin{frame}\frametitle{Aufz\"ahlung}
+%\begin{itemize}
+%\item Einf\"uhrungskurs in \LaTeX  
+%\item Kurs 2  
+%\item Seminararbeiten und Pr\"asentationen mit \LaTeX 
+%\item Die Beamerclass 
+%\end{itemize} 
+%\end{frame}
+%
+%\begin{frame}\frametitle{Aufz\"ahlung mit Pausen}
+%\begin{itemize}
+%\item  Einf\"uhrungskurs in \LaTeX \pause 
+%\item  Kurs 2 \pause 
+%\item  Seminararbeiten und Pr\"asentationen mit \LaTeX \pause 
+%\item  Die Beamerclass
+%\end{itemize} 
+%\end{frame}
+%
+%\subsection{Listen II}
+%\begin{frame}\frametitle{Numerierte Liste}
+%\begin{enumerate}
+%\item  Einf\"uhrungskurs in \LaTeX 
+%\item  Kurs 2
+%\item  Seminararbeiten und Pr\"asentationen mit \LaTeX 
+%\item  Die Beamerclass
+%\end{enumerate}
+%\end{frame}
+%\begin{frame}\frametitle{Numerierte Liste mit Pausen}
+%\begin{enumerate}
+%\item  Einf\"uhrungskurs in \LaTeX \pause 
+%\item  Kurs 2 \pause 
+%\item  Seminararbeiten und Pr\"asentationen mit \LaTeX \pause 
+%\item  Die Beamerclass
+%\end{enumerate}
+%\end{frame}
+%
+%\section{Abschnitt Nr.3} 
+%\subsection{Tabellen}
+%\begin{frame}\frametitle{Tabellen}
+%\begin{tabular}{|c|c|c|}
+%\hline
+%\textbf{Zeitpunkt} & \textbf{Kursleiter} & \textbf{Titel} \\
+%\hline
+%WS 04/05 & Sascha Frank &  Erste Schritte mit \LaTeX  \\
+%\hline
+%SS 05 & Sascha Frank & \LaTeX \ Kursreihe \\
+%\hline
+%\end{tabular}
+%\end{frame}
+%
+%
+%\begin{frame}\frametitle{Tabellen mit Pause}
+%\begin{tabular}{c c c}
+%A & B & C \\ 
+%\pause 
+%1 & 2 & 3 \\  
+%\pause 
+%A & B & C \\ 
+%\end{tabular} 
+%\end{frame}
+%
+%
+%\section{Abschnitt Nr. 4}
+%\subsection{Bl\"ocke}
+%\begin{frame}\frametitle{Bl\"ocke}
+%
+%\begin{block}{Blocktitel}
+%Blocktext 
+%\end{block}
+%
+%\begin{exampleblock}{Blocktitel}
+%Blocktext 
+%\end{exampleblock}
+%
+%
+%\begin{alertblock}{Blocktitel}
+%Blocktext 
+%\end{alertblock}
+%\end{frame}
+%
+%\section{Abschnitt Nr. 5}
+%\subsection{Geteilter Bildschirm}
+%
+%\begin{frame}\frametitle{Zerteilen des Bildschirmes}
+%\begin{columns}
+%\begin{column}{4cm}
+%\begin{itemize}
+%\item Beamer 
+%\item Beamer Class 
+%\item Beamer Class Latex 
+%\end{itemize}
+%\end{column}
+%\begin{column}{5cm}
+%\begin{tabular}{|c|c|}
+%\hline
+%\textbf{Kursleiter} & \textbf{Titel} \\
+%\hline
+%Sascha Frank &  Kurs 1 \\
+%\hline
+%Sascha Frank &  Kursreihe \\
+%\hline
+%\end{tabular}
+%\end{column}
+%\end{columns}
+%\end{frame}
+%
+%\subsection{Bilder} 
+%\begin{frame}\frametitle{Bilder in Beamer}
+%\begin{figure}
+%%\includegraphics[scale=0.45]{PIC1} 
+%\caption{Die Abbildung zeigt ein Beispielbild}
+%\end{figure}
+%\end{frame}
+%
+%
+%\subsection{Bilder und Listen kombiniert} 
+%
+%\begin{frame}
+%\frametitle{Bilder und Itemization in Beamer}
+%\begin{columns}
+%\begin{column}{4cm}
+%\begin{itemize}
+%\item<1-> Stichwort 1
+%\item<3-> Stichwort 2
+%\item<5-> Stichwort 3
+%\end{itemize}
+%\vspace{3cm} 
+%\end{column}
+%\begin{column}{5cm}
+%\begin{overprint}
+%%\includegraphics<2>[scale=0.5]{PIC1}
+%%\includegraphics<4>[scale=0.5]{PIC2}
+%%\includegraphics<6>[scale=0.5]{PIC3}
+%\end{overprint}
+%\end{column}
+%\end{columns}
+%\end{frame}
+%
+%\subsection{Bilder die mehr Platz brauchen} 
+%\begin{frame}[plain]
+%\frametitle{plain, oder wie man mehr Platz hat}
+%\begin{figure}
+%%\includegraphics[scale=0.5]{PIC1} 
+%\caption{Die Abbildung zeigt ein Beispielbild}
+%\end{figure}
+%\end{frame}
+
+
+
+
+\begin{frame}[t,allowframebreaks]
+	\frametitle{References}
+	\printbibliography
+\end{frame}
+
+
+\end{document}

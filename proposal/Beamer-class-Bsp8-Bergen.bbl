@@ -1,0 +1,239 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nty/global/}
+    \entry{cryptoeprint:2013:647}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=41a48639d3a6aa5cb4f99bfb691ff4d8}{%
+           family={Aranha},
+           familyi={A\bibinitperiod},
+           given={Diego\bibnamedelima F.},
+           giveni={D\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=b64408017727eb9eb7c297051f7e126c}{%
+           family={Barreto},
+           familyi={B\bibinitperiod},
+           given={Paulo\bibnamedelimb S.\bibnamedelimi L.\bibnamedelimi M.},
+           giveni={P\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=30a6f3011a109c0b1908ab4cdf1af595}{%
+           family={Pereira},
+           familyi={P\bibinitperiod},
+           given={Geovandro\bibnamedelimb C.\bibnamedelimi C.\bibnamedelimi F.},
+           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=b612dbc2c44db8d8ed44427e8b68b6bd}{%
+           family={Ricardini},
+           familyi={R\bibinitperiod},
+           given={Jefferson\bibnamedelima E.},
+           giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{5418b8d351a6d90557893edc43c3e90e}
+      \strng{fullhash}{14a621659271e7f11be5296ebfe039b2}
+      \strng{authornamehash}{5418b8d351a6d90557893edc43c3e90e}
+      \strng{authorfullhash}{14a621659271e7f11be5296ebfe039b2}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Cryptology ePrint Archive, Report 2013/647}
+      \field{note}{\url{http://eprint.iacr.org/2013/647}}
+      \field{title}{A note on high-security general-purpose elliptic curves}
+      \field{year}{2013}
+    \endentry
+    \entry{barker2016recommendation}{article}{}
+      \name{author}{5}{}{%
+        {{hash=fe89f812e7e0e1b0369322681b2dcd7c}{%
+           family={Barker},
+           familyi={B\bibinitperiod},
+           given={Elaine},
+           giveni={E\bibinitperiod}}}%
+        {{hash=81ea889ed4ba06aea14adf94a4a95248}{%
+           family={Barker},
+           familyi={B\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+        {{hash=c9d08fe297f5dd3a612238c7f592fe06}{%
+           family={Burr},
+           familyi={B\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+        {{hash=1017fc2b2bef992798431661e3fa7b31}{%
+           family={Polk},
+           familyi={P\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+        {{hash=f7aee1b3957ff5b443721d4d357c9aa8}{%
+           family={Smid},
+           familyi={S\bibinitperiod},
+           given={Miles},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{2b20087e82a1ea7bb76c5c321cccd318}
+      \strng{fullhash}{d7ec6a62a40a3083ee5e644812df710a}
+      \strng{authornamehash}{2b20087e82a1ea7bb76c5c321cccd318}
+      \strng{authorfullhash}{d7ec6a62a40a3083ee5e644812df710a}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{NIST special publication}
+      \field{number}{57}
+      \field{title}{Recommendation for key management part 1: General (revision 4)}
+      \field{volume}{800}
+      \field{year}{2016}
+      \field{pages}{1\bibrangedash 147}
+      \range{pages}{147}
+    \endentry
+    \entry{bernstein2006curve25519}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=dbc9c2504b80655f9de96edf5c43a55a}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Daniel\bibnamedelima J},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{fullhash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authornamehash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \strng{authorfullhash}{dbc9c2504b80655f9de96edf5c43a55a}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International Workshop on Public Key Cryptography}
+      \field{title}{Curve25519: new Diffie-Hellman speed records}
+      \field{year}{2006}
+      \field{pages}{207\bibrangedash 228}
+      \range{pages}{22}
+    \endentry
+    \entry{bernstein2016safecurves}{online}{}
+      \name{author}{2}{}{%
+        {{hash=5f3bee3b8939320b1e0713b083800eac}{%
+           family={Bernstein},
+           familyi={B\bibinitperiod},
+           given={Daniel\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=2c76d81f56d9dce0a910572140690325}{%
+           family={Lange},
+           familyi={L\bibinitperiod},
+           given={Tanja},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{46b8899c55707e65b78df12ac6215f4d}
+      \strng{fullhash}{46b8899c55707e65b78df12ac6215f4d}
+      \strng{authornamehash}{46b8899c55707e65b78df12ac6215f4d}
+      \strng{authorfullhash}{46b8899c55707e65b78df12ac6215f4d}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{SafeCurves: choosing safe curves for elliptic-curve cryptography.}
+      \field{urlday}{13}
+      \field{urlmonth}{3}
+      \field{urlyear}{2017}
+      \field{urldateera}{ce}
+      \verb{url}
+      \verb https://safecurves.cr.yp.to
+      \endverb
+    \endentry
+    \entry{cuppens2015fps}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=fb76214f07c5f12623a98e8bd915b756}{%
+           family={Cuppens},
+           familyi={C\bibinitperiod},
+           given={Frédéric},
+           giveni={F\bibinitperiod}}}%
+        {{hash=0614a3a83f1679b8b7b422789f536133}{%
+           family={Alfaro},
+           familyi={A\bibinitperiod},
+           given={Joaquin\bibnamedelima Garcia},
+           giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=1348f4a39972d24eb9c81e2968fc2704}{%
+           family={Heywood},
+           familyi={H\bibinitperiod},
+           given={A\bibnamedelima Nur\bibnamedelima Zincir},
+           giveni={A\bibinitperiod\bibinitdelim N\bibinitperiod\bibinitdelim Z\bibinitperiod}}}%
+        {{hash=5020078ea3f7627d37a63df9991c8862}{%
+           family={Fong},
+           familyi={F\bibinitperiod},
+           given={Philip\bibnamedelima WL},
+           giveni={P\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{d56b91539b084b779b17e5374324a617}
+      \strng{fullhash}{ec7fdb4461d7c8f1aae6074f53fab2eb}
+      \strng{authornamehash}{d56b91539b084b779b17e5374324a617}
+      \strng{authorfullhash}{ec7fdb4461d7c8f1aae6074f53fab2eb}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{FPS 2014: 7th International Symposium on Foundations and Practice of Security: revised selected papers}
+      \field{year}{2015}
+    \endentry
+    \entry{wikiYassineMrabet}{online}{}
+      \name{author}{1}{}{%
+        {{hash=03ca2a2b9648702dac67067796c5cd01}{%
+           family={Mrabet},
+           familyi={M\bibinitperiod},
+           given={Yassine},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{03ca2a2b9648702dac67067796c5cd01}
+      \strng{fullhash}{03ca2a2b9648702dac67067796c5cd01}
+      \strng{authornamehash}{03ca2a2b9648702dac67067796c5cd01}
+      \strng{authorfullhash}{03ca2a2b9648702dac67067796c5cd01}
+      \field{sortinit}{M}
+      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelnamesource}{author}
+      \field{urlday}{13}
+      \field{urlmonth}{3}
+      \field{urlyear}{2017}
+      \field{urldateera}{ce}
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Elliptic_curve#/media/File:ECClines-3.svg
+      \endverb
+    \endentry
+    \entry{werner2013elliptische}{book}{}
+      \name{author}{1}{}{%
+        {{hash=d09b4459afa187a20a13919237d8bd25}{%
+           family={Werner},
+           familyi={W\bibinitperiod},
+           given={Annette},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer-Verlag}%
+      }
+      \strng{namehash}{d09b4459afa187a20a13919237d8bd25}
+      \strng{fullhash}{d09b4459afa187a20a13919237d8bd25}
+      \strng{authornamehash}{d09b4459afa187a20a13919237d8bd25}
+      \strng{authorfullhash}{d09b4459afa187a20a13919237d8bd25}
+      \field{sortinit}{W}
+      \field{sortinithash}{99e3ba1b3f78bb6f073e7fa7ac11636b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Elliptische Kurven in der Kryptographie}
+      \field{year}{2013}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+
