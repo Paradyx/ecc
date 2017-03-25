@@ -66,6 +66,7 @@ ENDFOREACH (CONFIGINPUT ${CONFIGINPUTS})
 #
 # Add thirdparty directories first!
 ADD_SUBDIRECTORY(thirdparty/docopt)
+ADD_SUBDIRECTORY(thirdparty/cryptopp)
 ADD_SUBDIRECTORY(src)
 #ADD_SUBDIRECTORY(test)
 

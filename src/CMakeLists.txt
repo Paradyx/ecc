@@ -1,10 +1,10 @@
 FILE (GLOB_RECURSE project_SRCS *.cpp *.cxx *.cc *.C *.c *.h *.hpp)
 
 # Add libraries here. Example: ${Boost_LIBRARIES}
-SET (project_LIBS ${GMPXX_LIBRARIES} ${GMP_LIBRARIES} docopt)
+SET (project_LIBS ${GMPXX_LIBRARIES} ${GMP_LIBRARIES} docopt cryptopp)
 SET (project_BIN ${PROJECT_NAME})
 
-INCLUDE_DIRECTORIES(${docopt_HEADERS})
+INCLUDE_DIRECTORIES(${docopt_HEADERS} ${cryptopp_HEADERS})
 
 ADD_EXECUTABLE(${project_BIN} ${project_SRCS})
 TARGET_LINK_LIBRARIES(${project_BIN} ${project_LIBS})
