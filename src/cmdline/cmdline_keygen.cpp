@@ -13,13 +13,12 @@ namespace cmdline {
   static const char USAGE_KEYGEN[] =
   R"(Generate randomly a new secret and public key.
 
-  Usage: ecc keygen [-h] [--output=FILE]
+  Usage: ecc keygen [-h] [-d] [--output=<file>]
 
     Options:
-      -d --debug              show debug informations
-      -h --help               show this screen.
-
-      -o FILE, --output=FILE  store key pair at FILE [default: ./id_m511]
+      -d --debug                 show debug informations
+      -h --help                  show this screen.
+      -o <file> --output=<file>  store key pair at this location [default: /tmp/id_m511]
   )";
 
   void cmdline_keygen(std::vector<std::string> args){
@@ -27,12 +26,8 @@ namespace cmdline {
           = docopt::docopt(USAGE_KEYGEN,
                           args, //generate argument array automatically
                           true, // show help if requested
-                          "", // version string
-                          false); //options_first
+                          ""); //version string
 
-  for(auto const& arg : subargs){
-    std::cout << arg.first <<  arg.second << std::endl;
-  }
   std::string filename = subargs["--output"].asString();
 
   std::string pk;
@@ -41,6 +36,8 @@ namespace cmdline {
   pk = m511_keygen(&sk);
 
   //TODO Format keys in a usefull way.
+  
+
   std::ofstream f_privatekey(filename);
   f_privatekey << pk << sk;
   f_privatekey.close();
