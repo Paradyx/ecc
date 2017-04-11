@@ -1,10 +1,10 @@
-% Dieser Text ist urheberrechtlich geschützt
+% Dieser Text ist urheberrechtlich geschï¿½tzt
 % Er stellt einen Auszug eines von mir erstellten Referates dar
 % und darf nicht gewerblich genutzt werden
 % die private bzw. Studiums bezogen Nutzung ist frei
 % Nov. 2007
 % Autor: Sascha Frank 
-% Universität Freiburg 
+% Universitï¿½t Freiburg 
 % www.informatik.uni-freiburg.de/~frank/
 \documentclass{beamer}
 \setbeamertemplate{navigation symbols}{}
@@ -19,6 +19,8 @@
 \renewcommand\theadfont{\bfseries}
 \renewcommand\theadgape{\Gape[4pt]}
 \renewcommand\cellgape{\Gape[4pt]}
+
+\usepackage{colortbl}
 
 %\usepackage{cite}
 \usepackage{caption}
@@ -46,18 +48,19 @@
 
 \section{Non-ECC}
 \subsection{The Discrete Logarithm Problem}
-\begin{frame}{Eliptic Curves Cryptography}
+\begin{frame}{The Discrete Logarithm Problem}
 	Let $G$ be finite abelian Group with an Addition \\
 	\[(P,Q) \mapsto P + Q\]
 	An element $P \in G$ generates a cyclic Subgroup with order $n$\\
-	\[\langle P \rangle = \{kP : k \in \mathbb{Z} \}\]\\ \vspace{0.5cm}
+	\[\langle P \rangle = \{kP : k \in \mathbb{Z} \} \]
+	\[n = ord(P) = |\langle P \rangle| \]\\ \vspace{0.5cm}
 	\textbf{The Discrete Logarithm Problem (DLP)}: \\
 	For a given $G$, $P\in G$, $n = ord(P)$ and $Q \in \langle P \rangle$ determine the element $k \in \mathbb{Z}/n\mathbb{Z}$ s.t. \\
 	\[Q=kP\]
 	\cite{werner2013elliptische}
 \end{frame}
-\begin{frame}
-	Finding a abelian Group s.t. the DLP becomes \textit{difficult} to solve. This implies $n$ must be big enough. \\
+\begin{frame}{Finding the right abelian group}
+	Choose the abelian group s.t. the DLP becomes \textit{difficult} to solve. Obviously $n$ must be big enough. \\
 	\vspace{2cm}
 	$\mathbb{F}_p^\times$:
 	\begin{itemize}
@@ -74,11 +77,11 @@
 		\begin{tabular}{|c|c|c|c|}
 			\hline
 			\thead{Security \\strength}& \thead{Symmetric \\algorithm} & \thead{FFC(DSA)}& \thead{IFC(RSA)} \\ \hline
-			$\leq 80$ & 2TDEA & \makecell{$L=1024$\\$N=160$} & $k=1024$ \\ \hline  
-			$112$ & 3TDEA & \makecell{$L=2048$\\$N=224$} & $k=2048$ \\ \hline  
-			$128$ & AES-128 & \makecell{$L=3072$\\$N=256$} & $k=3072$ \\ \hline  
-			$192$ & AES-192 & \makecell{$L=7680$\\$N=384$} & $k=7680$ \\ \hline  
-			$256$ & AES-256 & \makecell{$L=15360$\\$N=512$} & $k=15360$ \\ \hline  
+			\cellcolor{red!25}$\leq 80$ & 2TDEA & \makecell{$L=1024$\\$N=160$} & \cellcolor{green!25}$k=1024$ \\ \hline  
+			\cellcolor{orange!25}$112$ & 3TDEA & \makecell{$L=2048$\\$N=224$} & \cellcolor{green!25}$k=2048$ \\ \hline  
+			\cellcolor{orange!25}$128$ & AES-128 & \makecell{$L=3072$\\$N=256$} & \cellcolor{green!25}$k=3072$ \\ \hline  
+			\cellcolor{green!25}$192$ & AES-192 & \makecell{$L=7680$\\$N=384$} & \cellcolor{red!25}$k=7680$ \\ \hline  
+			\cellcolor{green!25}$256$ & AES-256 & \makecell{$L=15360$\\$N=512$} & \cellcolor{red!25}$k=15360$ \\ \hline  
 		\end{tabular}
 		\captionof{table}{Security Strength of DSA and RSA from NIST\cite{barker2016recommendation}}
 	\end{center}
@@ -90,10 +93,10 @@
 		\begin{tabular}{|c|c|c|c|}
 			\hline
 			\thead{RSA \\key \\(bits)}& \thead{X.509 \\certificate \\(bytes)} & \thead{Handshake,\\ no chain \\(bytes)}& \thead{Handshake, \\chain \\(bytes)} \\ \hline
-			\makecell{$1024$} & $ 589 $ & $ 1225 $ & $ 2073 $ \\ \hline  
-			\makecell{$2048$} & $ 845 $ & $ 1481 $ & $ 2585 $ \\ \hline  
-			\makecell{$3072$} & $ 1101 $ & $ 1737 $ & $ 3097 $ \\ \hline  
-			\makecell{$4096$} & $ 1357 $ & $ 1993 $ &  \\ \hline
+			$1024$ & \makecell{$ 589 $} & $ 1225 $ & $ 2073 $ \\ \hline  
+			$2048$ & \makecell{$ 845 $} & $ 1481 $ & $ 2585 $ \\ \hline  
+			$3072$ & \makecell{$ 1101 $} & $ 1737 $ & $ 3097 $ \\ \hline  
+			$4096$ & \makecell{$ 1357 $} & $ 1993 $ &  \\ \hline
 		\end{tabular} 
 		\captionof{table}{Sizes of handshakes and certificates in with RSA\cite{cuppens2015fps}}
 	\end{center}
@@ -137,8 +140,8 @@
 			\makecell{$\leq 80$} & $k=1024$ & $f=160-223$ \\ \hline  
 			\makecell{$112$} & $k=2048$ & $f=224-255$ \\ \hline  
 			\makecell{$128$} & $k=3072$ & $f=256-383$ \\ \hline  
-			\makecell{$192$} & $k=7680$ & $f=384-511$ \\ \hline  
-			\makecell{$256$} & $k=15360$ & $f=512+$ \\ \hline  
+			\makecell{$192$} & $k=7680$ & \cellcolor{green!25}$f=384-511$ \\ \hline  
+			\makecell{$256$} & $k=15360$ & \cellcolor{green!25}$f=512+$ \\ \hline  
 		\end{tabular}
 		\captionof{table}{Security Strength of ECC compared to RSA\cite{barker2016recommendation}}
 	\end{center}
