@@ -10,7 +10,7 @@
 \setbeamertemplate{navigation symbols}{}
 \usetheme{Bergen}
 %\usepackage{ngerman}
-\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
+%\beamersetuncovermixins{\opaqueness<1>{25}}{\opaqueness<2->{15}}
 
 \usepackage[utf8]{inputenc}
 
@@ -42,76 +42,91 @@
 \titlepage
 \end{frame} 
 
-\begin{frame}
-\frametitle{Table of Contents}\tableofcontents
+\begin{frame}{Outline}
+\begin{itemize}
+	\item Why is non-elliptic curve cryptography not enough?
+	\item What is an elliptic curve?
+	\item Why M-511?
+\end{itemize}
 \end{frame} 
-
-\section{Non-ECC}
-\subsection{The Discrete Logarithm Problem}
-\begin{frame}{The Discrete Logarithm Problem}
-	Let $G$ be finite abelian Group with an Addition \\
-	\[(P,Q) \mapsto P + Q\]
-	An element $P \in G$ generates a cyclic Subgroup with order $n$\\
-	\[\langle P \rangle = \{kP : k \in \mathbb{Z} \} \]
+\begin{frame}{The Discrete Logarithm Problem\cite{werner2013elliptische}}
+	Finite abelian Group, with multiplication\\
+	\[(P,Q) \mapsto P \cdot Q\]
+	\pause
+	An element $P$ generates a cyclic Subgroup with order $n$\\
+	\[\langle P \rangle = \{P^k : k \in \mathbb{Z} \} \]
 	\[n = ord(P) = |\langle P \rangle| \]\\ \vspace{0.5cm}
+	\pause
 	\textbf{The Discrete Logarithm Problem (DLP)}: \\
-	For a given $G$, $P\in G$, $n = ord(P)$ and $Q \in \langle P \rangle$ determine the element $k \in \mathbb{Z}/n\mathbb{Z}$ s.t. \\
-	\[Q=kP\]
-	\cite{werner2013elliptische}
+	For a given $P$ and $Q \in \langle P \rangle$ determine $k$ s.t. \\
+	\[Q=P^k\]
+\end{frame}
+\begin{frame}{The Discrete Logarithm Problem\cite{werner2013elliptische}}
+Finite abelian Group, with \textcolor[rgb]{1.00,0.00,0.00}{addition}\\
+\[(P,Q) \mapsto P \textcolor[rgb]{1.00,0.00,0.00}{+} Q\]
+An element $P$ generates a cyclic Subgroup with order $n$\\
+\[\langle P \rangle = \{\textcolor[rgb]{1.00,0.00,0.00}{k}P : k \in \mathbb{Z} \} \]
+\[n = ord(P) = |\langle P \rangle| \]\\ \vspace{0.5cm}
+\textbf{The Discrete Logarithm Problem (DLP)}: \\
+For a given $P$ and $Q \in \langle P \rangle$ determine $k$ s.t. \\
+\[Q=\textcolor[rgb]{1.00,0.00,0.00}{k}P\]
+
 \end{frame}
 \begin{frame}{Finding the right abelian group}
-	Choose the abelian group s.t. the DLP becomes \textit{difficult} to solve. Obviously $n$ must be big enough. \\
-	\vspace{2cm}
-	$\mathbb{F}_p^\times$:
-	\begin{itemize}
-		\item Digital Signature Algorithm (DSA)
-		\item Diffie-Hellman (DH)
-		\item El-Gamal
-		
-	\end{itemize}
+Choose the abelian group s.t. the DLP becomes \textit{difficult} to solve. Obviously $n$ must be big enough. \\
+\vspace{2cm}
+$(\mathbb{F}_p, \cdot)$ is used in:
+\begin{itemize}
+\item Digital Signature Algorithm (DSA)
+\item Diffie-Hellman (DH)
+\item El-Gamal
+\item \textcolor{gray}{RSA (on IFC)}
+\end{itemize}
 \end{frame}
-\subsection{Key size and Handshake of RSA and DSA}
 \begin{frame}
 	\frametitle{RSA \& DSA Keysize}
 	\begin{center}
 		\begin{tabular}{|c|c|c|c|}
 			\hline
 			\thead{Security \\strength}& \thead{Symmetric \\algorithm} & \thead{FFC(DSA)}& \thead{IFC(RSA)} \\ \hline
-			\cellcolor{red!25}$\leq 80$ & 2TDEA & \makecell{$L=1024$\\$N=160$} & \cellcolor{green!25}$k=1024$ \\ \hline  
-			\cellcolor{orange!25}$112$ & 3TDEA & \makecell{$L=2048$\\$N=224$} & \cellcolor{green!25}$k=2048$ \\ \hline  
-			\cellcolor{orange!25}$128$ & AES-128 & \makecell{$L=3072$\\$N=256$} & \cellcolor{green!25}$k=3072$ \\ \hline  
-			\cellcolor{green!25}$192$ & AES-192 & \makecell{$L=7680$\\$N=384$} & \cellcolor{red!25}$k=7680$ \\ \hline  
-			\cellcolor{green!25}$256$ & AES-256 & \makecell{$L=15360$\\$N=512$} & \cellcolor{red!25}$k=15360$ \\ \hline  
+			\cellcolor{red!25}$\leq 80$ & 2TDEA & \makecell{$L=1024$\\$N=160$} & \cellcolor{green!25}$K=1024$ \\ \hline  
+			\cellcolor{orange!25}$112$ & 3TDEA & \makecell{$L=2048$\\$N=224$} & \cellcolor{green!25}$K=2048$ \\ \hline  
+			\cellcolor{orange!25}$128$ & AES-128 & \makecell{$L=3072$\\$N=256$} & \cellcolor{green!25}$K=3072$ \\ \hline  
+			\cellcolor{green!25}$192$ & AES-192 & \makecell{$L=7680$\\$N=384$} & \cellcolor{red!25}$K=7680$ \\ \hline  
+			\cellcolor{green!25}$256$ & AES-256 & \makecell{$L=15360$\\$N=512$} & \cellcolor{red!25}$K=15360$ \\ \hline  
 		\end{tabular}
 		\captionof{table}{Security Strength of DSA and RSA from NIST\cite{barker2016recommendation}}
 	\end{center}
 	
 \end{frame}
-\begin{frame}
-	\frametitle{Handshake size with RSA}
-	\begin{center}
-		\begin{tabular}{|c|c|c|c|}
-			\hline
-			\thead{RSA \\key \\(bits)}& \thead{X.509 \\certificate \\(bytes)} & \thead{Handshake,\\ no chain \\(bytes)}& \thead{Handshake, \\chain \\(bytes)} \\ \hline
-			$1024$ & \makecell{$ 589 $} & $ 1225 $ & $ 2073 $ \\ \hline  
-			$2048$ & \makecell{$ 845 $} & $ 1481 $ & $ 2585 $ \\ \hline  
-			$3072$ & \makecell{$ 1101 $} & $ 1737 $ & $ 3097 $ \\ \hline  
-			$4096$ & \makecell{$ 1357 $} & $ 1993 $ &  \\ \hline
-		\end{tabular} 
-		\captionof{table}{Sizes of handshakes and certificates in with RSA\cite{cuppens2015fps}}
-	\end{center}
-	
-\end{frame}
+%\begin{frame}
+%	\frametitle{Handshake size with RSA}
+%	\begin{center}
+%		\begin{tabular}{|c|c|c|c|}
+%			\hline
+%			\thead{RSA \\key \\(bits)}& \thead{X.509 \\certificate \\(bytes)} & \thead{Handshake,\\ no chain \\(bytes)}& \thead{Handshake, \\chain \\(bytes)} \\ \hline
+%			$1024$ & \makecell{$ 589 $} & $ 1225 $ & $ 2073 $ \\ \hline  
+%			$2048$ & \makecell{$ 845 $} & $ 1481 $ & $ 2585 $ \\ \hline  
+%			$3072$ & \makecell{$ 1101 $} & $ 1737 $ & $ 3097 $ \\ \hline  
+%			$4096$ & \makecell{$ 1357 $} & $ 1993 $ &  \\ \hline
+%		\end{tabular} 
+%		\captionof{table}{Sizes of handshakes and certificates in with RSA\cite{cuppens2015fps}}
+%	\end{center}
+%	
+%\end{frame}
 \section{Eliptic Curves Cryptography}
 \subsection{Eliptic Curves}
 \begin{frame}
-	\frametitle{Groups over eliptic Curves}
+	\frametitle{Continuous Eliptic Curve Cryptography}
 	\begin{figure}
 		\centering
 		\def\svgwidth{\columnwidth}
 		\input{img/ECClines-3.pdf_tex}
 		\caption{Two eliptic curves over $\mathbb{R}$ \cite{wikiYassineMrabet}}
 	\end{figure}
+	Elements: points on the curve
+	Addition: Intersection of Lines+ 
+	\pause
 	\begin{itemize}
 		\item Rounding errors
 		\item Not suitable for cryptography
