@@ -72,10 +72,21 @@ For a given $P$ and $Q \in \langle P \rangle$ determine $k$ s.t. \\
 \[Q=\textcolor[rgb]{1.00,0.00,0.00}{k}P\]
 
 \end{frame}
-\begin{frame}{Finding the right abelian group}
-Choose the abelian group s.t. the DLP becomes \textit{difficult} to solve. Obviously $n$ must be big enough. \\
-\vspace{2cm}
-$(\mathbb{F}_p, \cdot)$ is used in:
+\begin{frame}{Make the DLP hard}
+\textbf{The Discrete Logarithm Problem (DLP)}: \\
+For a given $P$ and $Q \in \langle P \rangle$ determine $k$ s.t. \\
+\[Q=P^k\]
+\
+\textbf{Brute-force attack:}
+try every $k < n$
+\begin{itemize}
+	\item big group
+	\item big $n=ord(\langle P \rangle)$ 
+\end{itemize}
+
+\pause
+\vspace{1cm}
+$(\mathbb{F}_p, \cdot)$ \pause is used in:
 \begin{itemize}
 \item Digital Signature Algorithm (DSA)
 \item Diffie-Hellman (DH)
@@ -114,24 +125,54 @@ $(\mathbb{F}_p, \cdot)$ is used in:
 %	\end{center}
 %	
 %\end{frame}
-\section{Eliptic Curves Cryptography}
-\subsection{Eliptic Curves}
 \begin{frame}
-	\frametitle{Continuous Eliptic Curve Cryptography}
+\frametitle{Continuous Eliptic Curve}
+\begin{figure}
+	\centering
+	\def\svgwidth{\columnwidth}
+	\input{img/ECClines-3.pdf_tex}
+	\caption{Two eliptic curves over $\mathbb{R}$ \cite{wikiYassineMrabet}}
+\end{figure}
+\begin{itemize}
+	\pause
+	\item Symmetry axis: x-axis
+	\pause
+	\item Every line intersecting two points has a third intersection point
+	\pause
+	\item Vertical lines intersect "infinity"
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Continuous Eliptic Curve}
+\begin{figure}
+	\centering
+	\def\svgwidth{\columnwidth}
+	\input{img/ECClines-3.pdf_tex}
+	\caption{Two eliptic curves over $\mathbb{R}$ \cite{wikiYassineMrabet}}
+\end{figure}
+\begin{itemize}
+	\pause
+	\item Element: point on the curve
+	\pause
+	\item $+$: 3rd intersection of a line, reflect over the x-axis
+	\pause
+	\item Neutral element: "infinity", $O$
+\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Continuous Eliptic Curve}
 	\begin{figure}
 		\centering
 		\def\svgwidth{\columnwidth}
 		\input{img/ECClines-3.pdf_tex}
 		\caption{Two eliptic curves over $\mathbb{R}$ \cite{wikiYassineMrabet}}
 	\end{figure}
-	Elements: points on the curve
-	Addition: Intersection of Lines+ 
-	\pause
 	\begin{itemize}
 		\item Rounding errors
 		\item Not suitable for cryptography
 	\end{itemize}
 \end{frame}
+
 
 \begin{frame}
 	\frametitle{Eliptic curves over finite fields}
@@ -161,7 +202,6 @@ $(\mathbb{F}_p, \cdot)$ is used in:
 		\captionof{table}{Security Strength of ECC compared to RSA\cite{barker2016recommendation}}
 	\end{center}
 \end{frame}
-\subsection{Key size and Handshake of ECC}
 \begin{frame}
 	\frametitle{Handshake size of ECC compared to RSA}
 	\begin{center}
@@ -183,9 +223,7 @@ $(\mathbb{F}_p, \cdot)$ is used in:
 		\end{tabular} 
 		\captionof{table}{Sizes of handshakes and certificates with ECC and RSA\cite{cuppens2015fps}}
 	\end{center}
-	
 \end{frame}
-\subsection{NIST-Curves}
 \begin{frame}
 	\frametitle{NIST-Curves}
 	The National Institute for Standards and Technology (NIST) proposed some cryptographic curves in 1999.
@@ -202,8 +240,6 @@ $(\mathbb{F}_p, \cdot)$ is used in:
 	\end{itemize}
 	\cite{bernstein2016safecurves}
 \end{frame}
-
-\subsection{Curve25519}
 \begin{frame}
 	\frametitle{Alternatives: Curve25519, M-511, M-383, ...}
 	Curve25519:
@@ -219,9 +255,6 @@ $(\mathbb{F}_p, \cdot)$ is used in:
 		\item No security flaws found until today
 	\end{itemize}
 \end{frame}
-
-\section{Term Project}
-\subsection{Goals for this semester}
 	\begin{frame}
 		\frametitle{Term Project}
 		\textbf{Goals for the semester:}
@@ -244,7 +277,6 @@ $(\mathbb{F}_p, \cdot)$ is used in:
 			\item Care about side-channel attacks
 		\end{itemize}
 	\end{frame}
-\section{References}
 
 %\section{Abschnitt Nr. 1} 
 %\begin{frame}
