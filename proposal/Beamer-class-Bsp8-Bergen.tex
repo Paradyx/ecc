@@ -34,9 +34,9 @@
 
 \begin{document}
 \title{Implementation of an ECC with M-511} 
-\subtitle{CS488 - Introduction to IT Security}
+\subtitle{CS448 - Introduction to IT Security}
 \author{Yoann Kehler, Duong Ta}
-\date{\today} 
+\date{April 13, 2017} 
 
 \begin{frame}
 \titlepage
@@ -232,16 +232,16 @@ $(\mathbb{F}_p, \cdot)$ \pause is used in:
 		\item Chosen ''randomly''
 	\end{itemize}
 	\vspace{1cm}
-	\textbf{ECC is not as hard as ECDLP!} \\
+	\textbf{ECC might not as hard as ECDLP!} \\
 	Some attacks can be performed on special classes of curves.
 	\begin{itemize}
-		\item Surprise! Attacks on NIST-Curves have been found
-		\item NIST-Curves were probably not chosen at random
+		\item Attacks on NIST-Curves have been found
+		\item NIST-Curves were probably not tru4ly chosen at random
 	\end{itemize}
 	\cite{bernstein2016safecurves}
 \end{frame}
 \begin{frame}
-	\frametitle{Alternatives: Curve25519, M-511, M-383, ...}
+	\frametitle{Alternatives: Curve25519, M-511, M-383}
 	Curve25519:
 	\begin{itemize}
 		\item Proposed by Daniel Bernstein \cite{bernstein2006curve25519}
