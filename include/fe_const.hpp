@@ -1,17 +1,16 @@
-#ifdef FE_CONST_HPP
+#ifdef FE_GMP_HPP
 #error Only one implementation of the finite field element is supported
-#endif //FE_CONST_HPP
+#endif //FE_GMP_HPP
 
-#ifndef FE_GMP_HPP
-#define FE_GMP_HPP
+#ifndef FE_CONST_HPP
+#define FE_CONST_HPP
 
-#include <gmp.h>
+#include <stdint.h>
 
 class Fe {
 private:
-  mpz_t element;
-  static mpz_t modulus;
-  static bool init;
+  // x = t[0]+t[1]*2^32+t[2]*2^64+t[3]*2^96+ ... + t[i]*2^512
+  int32_t t[20];
 
 public:
   Fe ();

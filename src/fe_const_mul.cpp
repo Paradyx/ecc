@@ -1,4 +1,6 @@
-#include "fe.hpp"
+#ifdef FE_CONST_HPP
+
+#include "fe_const.hpp"
 
 Fe operator*(const Fe& a, const Fe& b){
   int32_t f0 = a.t[0];
@@ -583,3 +585,5 @@ Fe operator*(const Fe& a, const Fe& b){
 
   return r;
 }
+
+#endif //FE_CONST_HPP

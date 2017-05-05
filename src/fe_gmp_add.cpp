@@ -1,3 +1,5 @@
+#ifdef FE_GMP_HPP
+
 #include "fe_gmp.hpp"
 
 Fe operator+(const Fe& a, const Fe& b){
@@ -6,3 +8,5 @@ Fe operator+(const Fe& a, const Fe& b){
   mpz_mod(result.element, result.element, Fe::modulus);
   return result;
 }
+
+#endif //FE_GMP_HPP

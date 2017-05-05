@@ -1,3 +1,5 @@
+#ifdef FE_GMP_HPP
+
 #include "fe_gmp.hpp"
 
 bool Fe::init = false;
@@ -17,3 +19,5 @@ Fe::Fe (){
 Fe::~Fe (){
   mpz_clear(element);
 }
+
+#endif //FE_GMP_HPP
