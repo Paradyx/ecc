@@ -7,7 +7,7 @@
 #include <fstream>
 
 #include "debug.hpp"
-#include "m511/m511_keygen.hpp"
+#include "m511_keygen.hpp"
 
 namespace cmdline {
   static const char USAGE_KEYGEN[] =
