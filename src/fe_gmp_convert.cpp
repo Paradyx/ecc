@@ -1,4 +1,4 @@
-#ifdef FE_GMP_HPP
+#if FE_CONST==0
 
 #include "fe_gmp.hpp"
 
@@ -10,4 +10,4 @@ void tobytes(const unsigned char * out){
 
 }
 
-#endif //FE_GMP_HPP
+#endif //FE_CONST

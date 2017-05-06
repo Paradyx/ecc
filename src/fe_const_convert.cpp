@@ -1,4 +1,4 @@
-#ifdef FE_CONST_HPP
+#if FE_CONST==1
 
 #include "fe_const.hpp"
 
@@ -11,4 +11,4 @@ void tobytes(const unsigned char * out){
 
 }
 
-#endif //FE_CONST_HPP
+#endif //FE_CONST

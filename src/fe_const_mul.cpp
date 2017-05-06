@@ -1,4 +1,4 @@
-#ifdef FE_CONST_HPP
+#if FE_CONST==1
 
 #include "fe_const.hpp"
 
@@ -586,4 +586,4 @@ Fe operator*(const Fe& a, const Fe& b){
   return r;
 }
 
-#endif //FE_CONST_HPP
+#endif //FE_CONST

@@ -1,4 +1,4 @@
-#ifdef FE_GMP_HPP
+#if FE_CONST==0
 
 #include "fe_gmp.hpp"
 
@@ -20,4 +20,4 @@ Fe::~Fe (){
   mpz_clear(element);
 }
 
-#endif //FE_GMP_HPP
+#endif //FE_CONST

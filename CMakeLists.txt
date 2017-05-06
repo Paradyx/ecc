@@ -25,6 +25,11 @@ SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET (CMAKE_VERBOSE_MAKEFILE 0) # Use 1 for debugging, 0 for release
 
 #
+# Project Specific configuration
+#
+SET (CONST_TIME 0)
+
+#
 # Project Output Paths
 #
 SET (MAINFOLDER ${PROJECT_SOURCE_DIR})
