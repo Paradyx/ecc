@@ -2,7 +2,7 @@
 #define FE_HPP
 
 // include constant implementation if FE_CONST = 1
-#if FE_CONST=1
+#if FE_CONST==1
 #include "fe_const.hpp"
 #else
 #undef FE_CONST

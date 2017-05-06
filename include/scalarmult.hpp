@@ -3,6 +3,6 @@
 
 #include "fe.hpp"
 
-static Fe m511_scalarmult(Fe n, Fe p);
+static void m511_scalarmult(unsigned char* q, unsigned char* d, unsigned char* p);
 
 #endif //M511_HPP_

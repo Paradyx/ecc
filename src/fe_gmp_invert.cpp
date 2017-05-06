@@ -3,11 +3,9 @@
 #include "fe_gmp.hpp"
 #include <assert.h>
 
-friend void invert(const Fe& a){
+void invert(Fe& a){
   // Extended euklidean algorithm
-  Fe result;
-  assert (0 != mpz_invert(result.element, a.element, Fe::modulus));
-  return Fe;
+  assert (0 != mpz_invert(a.element, a.element, Fe::modulus));
 }
 
 #endif //FE_CONST

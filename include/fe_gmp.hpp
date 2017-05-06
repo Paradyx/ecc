@@ -17,7 +17,7 @@ public:
   Fe ();
   ~Fe ();
   void frombytes(const unsigned char in[64]);
-  void tobytes(const unsigned char out[64]);
+  void tobytes(unsigned char out[64]);
   void fromint(const int in);
 
   void operator=(const Fe& rhs);
