@@ -15,14 +15,16 @@ private:
 public:
   Fe ();
   ~Fe ();
-  friend void frombytes(const unsigned char * in);
-  friend void tobytes(const unsigned char * out);
+  void frombytes(const unsigned char in[64]);
+  void tobytes(const unsigned char out[64]);
+  void fromint(const int in);
 
-  void operator=(Fe& rhs);
-  friend void to0();
-  friend void to1();
+  void operator=(const Fe& rhs);
+  void to0();
+  void to1();
 
-  friend Fe invert(const Fe& a);
+  friend void invert(Fe& a);
+  friend void cswap(Fe& a, Fe& b, unsigned int condition);
   friend Fe operator+(const Fe& a, const Fe& b);
   friend Fe operator*(const Fe& a, const Fe& b);
   friend Fe operator-(const Fe& a, const Fe& b);

@@ -2,12 +2,16 @@
 
 #include "fe_const.hpp"
 
-void frombytes(const unsigned char * in){
+void Fe::frombytes(const unsigned char *in){
 
 
 }
 
-void tobytes(const unsigned char * out){
+void Fe::tobytes(const unsigned char *out){
+
+}
+
+void Fe::fromint(const int){
 
 }
 
