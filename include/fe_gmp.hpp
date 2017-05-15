@@ -26,6 +26,7 @@ public:
 
   friend void invert(Fe& a);
   friend void cswap(Fe& a, Fe& b, unsigned int condition);
+  friend Fe a24(const Fe& a);
   friend Fe operator+(const Fe& a, const Fe& b);
   friend Fe operator*(const Fe& a, const Fe& b);
   friend Fe operator-(const Fe& a, const Fe& b);

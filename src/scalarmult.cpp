@@ -1,12 +1,39 @@
 #include "scalarmult.hpp"
 #include "fe.hpp"
 
-static void m511_double(Fe x, Fe z){
+static void m511_doubleandadd(Fe& x2, Fe& z2, Fe& x3, Fe& z3, const Fe& x1){
+  //
+  Fe tmp1;
+  Fe tmp2;
+  Fe tmp3;
+  Fe tmp4;
+  // First level
+  tmp1 = x2 + z2;
+  tmp2 = x2 - z2;
+  tmp3 = x3 + z3;
+  tmp4 = x3 - z3;
+  // Secod level
+  tmp3 = tmp3 * tmp2;
+  tmp4 = tmp4 * tmp1;
+  tmp1 = tmp1 * tmp1;
+  tmp2 = tmp2 * tmp2;
+  // Third level
+  x2   = tmp1 * tmp2;
+  tmp2 = tmp1 - tmp2;
+  x3   = tmp3 * tmp4;
+  tmp4 = tmp3 - tmp4; //tmp3 is used for column 2 from this point on
 
-}
+  // Fourth level
+  tmp3 = a24(tmp2);
+  x3   = x3   * x3;
+  tmp4 = tmp4 * tmp4;
 
-static void m511_add(Fe x2, Fe z2, Fe x3, Fe z3){
+  // Fifth level
+  tmp3 = tmp1 + tmp3;
+  z3   = tmp4 * x1;
 
+  // Sixth level
+  z2 = tmp3 * tmp2;
 }
 
 /*
@@ -64,7 +91,7 @@ static void m511_scalarmult(unsigned char* q, unsigned char* d, unsigned char* p
     // if di = 0 then
     //   to the swaped operation and swap afterwards again
     //
-    di = 0; // TODO
+    di = 0;
     // Dont swap if we need a swap from previous round
     swap ^= di;
     cswap(x2, x3, swap);
@@ -73,10 +100,10 @@ static void m511_scalarmult(unsigned char* q, unsigned char* d, unsigned char* p
     //(*)
     // R0 ← point_double(R0) if di = 0 or
     // R1 ← point_double(R1) if di = 1
-    m511_double(x2, z2);
+    //
     // R1 ← point_add(R0, R1) if di = 1 or
     // R0 ← point_add(R1, R0) if di = 1
-    m511_add(x2, z2, x3, z3);
+    m511_doubleandadd(x2, z2, x3, z3, x1);
 
     //memorize if another swap is necessary
     swap = di;
