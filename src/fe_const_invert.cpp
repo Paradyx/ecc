@@ -3,7 +3,7 @@
 #include "fe_const.hpp"
 #include <assert.h>
 
-friend void invert(const Fe& a){
+void invert(const Fe& a){
   // Extended euklidean algorithm
   // TODO: Implement euklidean algorithm in constant time
 }
