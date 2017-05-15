@@ -1,4 +1,4 @@
-#if FE_CONST==0
+#if (FE_CONST==0)
 
 #include "fe_gmp.hpp"
 

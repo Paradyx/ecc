@@ -1,4 +1,4 @@
-#if FE_CONST==1
+#if (FE_CONST==1)
 
 #include "fe_const.hpp"
 
