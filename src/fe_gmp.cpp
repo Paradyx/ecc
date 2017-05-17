@@ -20,4 +20,8 @@ Fe::~Fe (){
   mpz_clear(element);
 }
 
+void Fe::print(){
+  gmp_printf ("%Zd\n", element);
+}
+
 #endif //FE_CONST

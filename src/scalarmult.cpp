@@ -1,7 +1,10 @@
 #include "scalarmult.hpp"
 #include "fe.hpp"
 
-static void m511_doubleandadd(Fe& x2, Fe& z2, Fe& x3, Fe& z3, const Fe& x1){
+#include <assert.h>
+#include <iostream>
+
+static void doubleandadd(Fe& x2, Fe& z2, Fe& x3, Fe& z3, const Fe& x1){
   //
   Fe tmp1;
   Fe tmp2;
@@ -36,20 +39,29 @@ static void m511_doubleandadd(Fe& x2, Fe& z2, Fe& x3, Fe& z3, const Fe& x1){
   z2 = tmp3 * tmp2;
 }
 
+static unsigned int getbyte(const unsigned char* const d, int i){
+  assert(i >= 0);
+  unsigned int placeinarray = i >> 3;
+  unsigned char bitinbyte = 1 << (i & 7);
+  unsigned char di = d[i] & bitinbyte;
+  return di;
+}
+
 /*
 Compute q = d*P, d in F_2^511-187 and (p, 1) a point on the curve M511
 The montgomery ladder is implemented as described in https://cr.yp.to/ecdh/curve25519-20060209.pdf
 Also very analogue to the ref10 implementation.
+q, p and d must point to Bytearrays of length 64.
 */
-static void m511_scalarmult(unsigned char* q, unsigned char* d, unsigned char* p){
+void scalarmult(unsigned char* q, const unsigned char* const d, const unsigned char* const p){
   Fe x1;
   Fe x2;
   Fe z2;
   Fe x3;
   Fe z3;
-  unsigned int i;
-  unsigned int di;
-  unsigned int swap;
+  int i;
+  unsigned char di;
+  unsigned char swap;
 
   // The following comments reference the Wikipedia description of a Montgomery ladder
   // Used in the implementation of the addition.
@@ -91,7 +103,7 @@ static void m511_scalarmult(unsigned char* q, unsigned char* d, unsigned char* p
     // if di = 0 then
     //   to the swaped operation and swap afterwards again
     //
-    di = 0;
+    di = getbyte(d, i);
     // Dont swap if we need a swap from previous round
     swap ^= di;
     cswap(x2, x3, swap);
@@ -103,7 +115,7 @@ static void m511_scalarmult(unsigned char* q, unsigned char* d, unsigned char* p
     //
     // R1 ← point_add(R0, R1) if di = 1 or
     // R0 ← point_add(R1, R0) if di = 1
-    m511_doubleandadd(x2, z2, x3, z3, x1);
+    doubleandadd(x2, z2, x3, z3, x1);
 
     //memorize if another swap is necessary
     swap = di;
@@ -117,6 +129,5 @@ static void m511_scalarmult(unsigned char* q, unsigned char* d, unsigned char* p
   // return R0
   invert(z2);
   x2 = x2 * z2;
-
   x2.tobytes(q);
 }

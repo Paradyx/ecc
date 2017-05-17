@@ -1,5 +1,6 @@
 #if (FE_CONST==0)
 
+#include <iostream>
 #include "fe_gmp.hpp"
 #include "assert.h"
 
@@ -7,10 +8,9 @@ void Fe::frombytes(const unsigned char in[64]) {
   mpz_import(this->element, 64, 1, sizeof(unsigned char), 1, 0, in);
 }
 
-void Fe::tobytes(unsigned char out[64]) {
-  unsigned char* tmp = NULL;
+void Fe::tobytes(unsigned char* out) {
   size_t countp;
-  mpz_export(tmp, &countp, 1, sizeof(unsigned char),1, 0, this->element);
+  unsigned char* tmp = (unsigned char*) mpz_export(NULL, &countp, 1, sizeof(unsigned char),1, 0, this->element);
   assert(countp<=64);
   for (int i = 0; i<countp; i++) out[i] = tmp[i];
   for (int i = countp; i<64; i++) out[i] = 0;

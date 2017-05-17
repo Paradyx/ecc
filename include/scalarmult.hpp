@@ -3,6 +3,6 @@
 
 #include "fe.hpp"
 
-static void m511_scalarmult(unsigned char* q, unsigned char* d, unsigned char* p);
+void scalarmult(unsigned char* q, const unsigned char* const d, const unsigned char* const p);
 
 #endif //M511_HPP_

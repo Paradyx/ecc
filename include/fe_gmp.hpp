@@ -19,6 +19,7 @@ public:
   void frombytes(const unsigned char in[64]);
   void tobytes(unsigned char out[64]);
   void fromint(const int in);
+  void print();
 
   void operator=(const Fe& rhs);
   void to0();

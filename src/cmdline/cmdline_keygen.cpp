@@ -7,7 +7,7 @@
 #include <fstream>
 
 #include "debug.hpp"
-#include "m511_keygen.hpp"
+#include "keys.hpp"
 
 namespace cmdline {
   static const char USAGE_KEYGEN[] =
@@ -33,12 +33,15 @@ namespace cmdline {
   std::string pk;
   std::string sk;
 
-  pk = m511_keygen(&sk);
+  Private_Key k;
+  k.generate();
+  sk = k.to_string();
+
+  pk = k.get_pub().to_string();
 
   //TODO Format keys in a usefull way.
-
   std::ofstream f_privatekey(filename);
-  f_privatekey << pk << sk;
+  f_privatekey << sk;
   f_privatekey.close();
 
   std::ofstream f_publickey(filename+".pub");
