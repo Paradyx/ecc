@@ -2,12 +2,13 @@
 #define SCALAR_HPP
 
 #include <gmp.h>
+#include "block.hpp"
 #include "point.hpp"
 #include "assert.h"
 
 class Point;
 
-class Scalar {
+class Scalar : public Block {
 private:
   mpz_t element;
   static mpz_t modulus;

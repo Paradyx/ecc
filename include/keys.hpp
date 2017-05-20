@@ -5,30 +5,15 @@
 #include "point.hpp"
 #include "scalar.hpp"
 
-class Public_Key {
-public:
-  Public_Key(){}
-  ~Public_Key(){}
-  void from_string(std::string in);
-  std::string to_string();
-  private:
-  //public point Q = d*G
-  Point q;
+class Public_Key : public Point {};
 
-};
-
-class Private_Key {
+class Private_Key : public Scalar {
 public:
   Private_Key(){
     b = false;
   }
-  ~Private_Key(){}
   void generate();
-  void from_string(std::string in);
-  std::string to_string();
   Public_Key get_pub();
-  // private integer d
-  Scalar d;
 private:
   // True iff key is initialized
   bool b;

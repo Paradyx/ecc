@@ -1,13 +1,14 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
+#include "block.hpp"
 #include "point.hpp"
 #include "scalar.hpp"
 #include "fe.hpp"
 
 class Scalar;
 
-class Point {
+class Point : public Block {
 private:
   Fe x;
 

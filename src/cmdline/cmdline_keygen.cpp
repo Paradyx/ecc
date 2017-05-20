@@ -35,9 +35,9 @@ namespace cmdline {
 
   Private_Key k;
   k.generate();
-  sk = k.to_string();
+  sk = k.tostring();
 
-  pk = k.get_pub().to_string();
+  pk = k.get_pub().tostring();
 
   //TODO Format keys in a usefull way.
   std::ofstream f_privatekey(filename);
