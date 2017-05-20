@@ -47,6 +47,8 @@ SET (CMAKE_MODULE_PATH "${MAINFOLDER}/tools/cmake")
 INCLUDE_DIRECTORIES("${MAINFOLDER}/include")
 
 FIND_PACKAGE(GMP REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_search_module(OPENSSL REQUIRED openssl)
 
 #
 # Configure Files
