@@ -1,7 +1,7 @@
 #include "scalar.hpp"
 #include <random>
 
-void Scalar::new_random(){
+void Scalar::fromrandom(){
   std::random_device generator;
   std::uniform_int_distribution<char> distribution;
 

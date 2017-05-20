@@ -20,12 +20,12 @@ public:
   void tobytes(unsigned char out[64]);
   void fromint(const int in);
 
-  void new_random();
+  void fromrandom();
   void print();
 
   void operator=(const Scalar& rhs);
 
-  friend void invert(Scalar& a);
+  friend Scalar invert(Scalar& a);
 
   friend Scalar operator+(const Scalar& a, const Scalar& b);
   friend Scalar operator*(const Scalar& a, const Scalar& b);

@@ -14,6 +14,7 @@ private:
 public:
   void frombytes(const unsigned char in[64]);
   void tobytes(unsigned char out[64]);
+  Scalar toscalar();
 
   void operator=(const Point& rhs);
   friend void scalarmult(Point& q, Scalar& d, Point& p);

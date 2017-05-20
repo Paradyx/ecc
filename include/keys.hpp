@@ -27,11 +27,11 @@ public:
   void from_string(std::string in);
   std::string to_string();
   Public_Key get_pub();
+  // private integer d
+  Scalar d;
 private:
   // True iff key is initialized
   bool b;
-  // private integer d
-  Scalar d;
 };
 
 #endif //KEYS_HPP_

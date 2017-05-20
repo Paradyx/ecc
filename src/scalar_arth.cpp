@@ -14,7 +14,9 @@ Scalar operator*(const Scalar& a, const Scalar& b){
   return result;
 }
 
-void invert(Scalar& a){
+Scalar invert(Scalar& a){
+  Scalar result;
   // Extended euklidean algorithm
-  assert (0 != mpz_invert(a.element, a.element, Scalar::modulus));
+  assert (0 != mpz_invert(result.element, a.element, Scalar::modulus));
+  return result;
 }

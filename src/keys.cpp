@@ -8,7 +8,7 @@
 #include "param.hpp"
 
 void Private_Key::generate(){
-  d.new_random();
+  d.fromrandom();
   this->b = true;
 }
 
