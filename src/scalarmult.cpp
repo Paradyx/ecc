@@ -1,4 +1,5 @@
-#include "scalarmult.hpp"
+#include "point.hpp"
+#include "scalar.hpp"
 #include "fe.hpp"
 
 #include <assert.h>
@@ -53,19 +54,22 @@ The montgomery ladder is implemented as described in https://cr.yp.to/ecdh/curve
 Also very analogue to the ref10 implementation.
 q, p and d must point to Bytearrays of length 64.
 */
-void scalarmult(unsigned char* q, const unsigned char* const d, const unsigned char* const p){
+
+void scalarmult(Point& q, Scalar& d, Point& p){
   Fe x1;
   Fe x2;
   Fe z2;
   Fe x3;
   Fe z3;
   int i;
+  unsigned char d_[64];
+  d.tobytes(d_);
   unsigned char di;
   unsigned char swap;
 
   // The following comments reference the Wikipedia description of a Montgomery ladder
   // Used in the implementation of the addition.
-  x1.frombytes(p);
+  x1 = p.x;
 
   // R0 = 0
   x2.to1();
@@ -103,7 +107,7 @@ void scalarmult(unsigned char* q, const unsigned char* const d, const unsigned c
     // if di = 0 then
     //   to the swaped operation and swap afterwards again
     //
-    di = getbyte(d, i);
+    di = getbyte(d_, i);
     // Dont swap if we need a swap from previous round
     swap ^= di;
     cswap(x2, x3, swap);
@@ -129,5 +133,10 @@ void scalarmult(unsigned char* q, const unsigned char* const d, const unsigned c
   // return R0
   invert(z2);
   x2 = x2 * z2;
-  x2.tobytes(q);
+  q.x = x2;
+}
+
+
+void scalarmult(unsigned char* q, const unsigned char* const d, const unsigned char* const p){
+  //TODO: Create points from bytes and run above function
 }

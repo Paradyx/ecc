@@ -2,7 +2,8 @@
 #define KEYS_HPP_
 
 #include <string>
-#include "scalarmult.hpp"
+#include "point.hpp"
+#include "scalar.hpp"
 
 class Public_Key {
 public:
@@ -10,9 +11,10 @@ public:
   ~Public_Key(){}
   void from_string(std::string in);
   std::string to_string();
-private:
+  private:
   //public point Q = d*G
-  char q[64];
+  Point q;
+
 };
 
 class Private_Key {
@@ -29,12 +31,7 @@ private:
   // True iff key is initialized
   bool b;
   // private integer d
-  char d[64];
-  // curve parameter
-  // public base point G
-  char g[64];
+  Scalar d;
 };
-
-
 
 #endif //KEYS_HPP_
