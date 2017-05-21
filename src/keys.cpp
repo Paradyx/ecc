@@ -1,21 +1,18 @@
 #include "keys.hpp"
-//#include <sys/stat.h>
-#include <fcntl.h>
-#include <iostream>
-#include <string.h>
-#include <assert.h>
-
 #include "param.hpp"
+#include "debug.hpp"
 
 void Private_Key::generate(){
+  Debug::Write("Generating Private Key..");
   fromrandom();
   this->b = true;
 }
 
 Public_Key Private_Key::get_pub(){
-  Point pub;
+  Debug::Write("Generating Public Key..");
+  Public_Key pub;
   Point base;
   base.frombytes(M511.g);
-
   scalarmult(pub, *this, base);
+  return pub;
 }

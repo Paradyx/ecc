@@ -36,14 +36,13 @@ namespace cmdline {
   Private_Key k;
   k.generate();
   sk = k.tostring();
-
   pk = k.get_pub().tostring();
-
+  Debug::Write("Saving Private Key..");
   //TODO Format keys in a usefull way.
   std::ofstream f_privatekey(filename);
   f_privatekey << sk;
   f_privatekey.close();
-
+  Debug::Write("Saving Public Key..");
   std::ofstream f_publickey(filename+".pub");
   f_publickey << pk;
   f_publickey.close();
