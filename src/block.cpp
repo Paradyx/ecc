@@ -1,11 +1,11 @@
 #include "block.hpp"
-#include <string.h>
+#include <string>
 #include <assert.h>
 
 void Block::fromstring(std::string in){
   assert(in.length()==64);
   char tmp[64];
-  strncpy(tmp, in.c_str(), sizeof(tmp));
+  in.copy(tmp, in.length(),0);
   frombytes((const unsigned char*)tmp);
 }
 

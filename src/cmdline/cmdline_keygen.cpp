@@ -1,7 +1,7 @@
 #include "cmdline/cmdline_keygen.hpp"
 
 #include "docopt.h"
-#include <string>
+#include <cstring>
 #include <vector>
 #include <iostream>
 #include <fstream>
