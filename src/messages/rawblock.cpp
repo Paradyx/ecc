@@ -1,4 +1,4 @@
-#include "rawblock.hpp"
+#include "messages.hpp"
 #include <cstring>
 
 void RawBlock::frombytes(const unsigned char in[64]){
