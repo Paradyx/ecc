@@ -12,8 +12,8 @@ void Fe::tobytes(unsigned char* out) {
   size_t countp;
   unsigned char* tmp = (unsigned char*) mpz_export(NULL, &countp, 1, sizeof(unsigned char),1, 0, this->element);
   assert(countp<=64);
-  for (int i = 0; i<countp; i++) out[i] = tmp[i];
-  for (int i = countp; i<64; i++) out[i] = 0;
+  for (unsigned int i = 0; i<countp; i++) out[i] = tmp[i];
+  for (unsigned int i = countp; i<64; i++) out[i] = 0;
 
   // Free memory
   void (*freefunc) (void *, size_t);
