@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "param.hpp"
+#include "mysha.hpp"
 #include "keys.hpp"
 #include "scalar.hpp"
 #include "messages.hpp"
@@ -9,7 +10,7 @@
 Signature RawBlock::sign(Private_Key &sk){
   // ECDSA Schoolbook
   // Calculate hash of message
-  unsigned char digest[SHA512_DIGEST_LENGTH];
+  unsigned char digest[64];
   std::cout << "Encoded Rawblock: " << enc() << std::endl;
   mysha512(element, digest);
 

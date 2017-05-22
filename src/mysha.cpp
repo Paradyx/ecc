@@ -2,7 +2,7 @@
 #include <openssl/evp.h>
 #include <string>
 
-static void mysha512(unsigned char message[64], unsigned char digest[64]){
+void mysha512(unsigned char message[64], unsigned char digest[64]){
   EVP_MD_CTX *mdctx;
   const EVP_MD *md;
   unsigned int md_len, i;
