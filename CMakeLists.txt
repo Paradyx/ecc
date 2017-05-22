@@ -25,6 +25,16 @@ SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET (CMAKE_VERBOSE_MAKEFILE 0) # Use 1 for debugging, 0 for release
 
 #
+# Activate Warnings
+#
+if ( CMAKE_COMPILER_IS_GNUCC )
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall")
+endif ( CMAKE_COMPILER_IS_GNUCC )
+if ( MSVC )
+    set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /W4")
+endif ( MSVC )
+
+#
 # Project Specific configuration
 #
 SET (CONST_TIME 0)
