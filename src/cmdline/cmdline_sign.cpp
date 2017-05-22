@@ -7,6 +7,7 @@
 #include <vector>
 #include "keys.hpp"
 #include "messages.hpp"
+#include "debug.hpp"
 
 namespace cmdline {
   static const char USAGE_SIGN[] =
@@ -28,25 +29,29 @@ namespace cmdline {
     std::string inputfile_s = subargs["--input"].asString();
     std::string keyfile_s = subargs["--key"].asString();
 
+    Debug::Write("Reading message from file");
     size_t size;
-    char input_c[64], key_c[64];
+    char input_c[64]={0}, key_c[64] = {0};
     std::ifstream inputfile(inputfile_s, std::ios::binary);
     if (inputfile.is_open()){
       inputfile.seekg (0, std::ios::end);
       size = inputfile.tellg();
-      if (size > 64) {
+      inputfile.seekg (0, std::ios::beg);
+      std::cout << "Size of input: " << size << std::endl;
+      if (size >= 64) {
         std::cout << "Message to big, cutting down\n";
+        inputfile.read (input_c, 64);
       } else if (size < 64) {
         std::cout << "Message to small, filling with zeros\n";
+        inputfile.read (input_c, size);
       }
-      inputfile.seekg (0, std::ios::beg);
-      inputfile.read (input_c, 64);
       inputfile.close();
     } else std::cerr << "ERROR: unable to open inputfile\n";
 
     Plaintext plaintext;
     plaintext.frombytes((const unsigned char*)input_c);
 
+    Debug::Write("Reading key from file");
     std::ifstream keyfile(keyfile_s, std::ios::binary);
     if (keyfile.is_open()){
       keyfile.seekg (0, std::ios::end);
@@ -60,14 +65,17 @@ namespace cmdline {
     Private_Key sk;
     sk.frombytes((const unsigned char*)key_c);
 
+    Debug::Write("Signing message");
     Signature signature;
     signature = plaintext.sign(sk);
 
+    Debug::Write("Encoding Signature");
     std::string sig;
     sig = signature.enc();
+    std::cout << sig << std::endl;
 
-    std::string outputfile_s = inputfile_s + ".sig";
-    std::ofstream outputfile(outputfile_s);
+    Debug::Write("Writing Signature to file");
+    std::ofstream outputfile(inputfile_s + ".sig");
     outputfile << sig;
     outputfile.close();
   }

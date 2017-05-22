@@ -1,27 +1,47 @@
 #include "messages.hpp"
-#include <string.h>
+#include <string>
 #include <iostream>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 #include "param.hpp"
 #include "keys.hpp"
 #include "scalar.hpp"
 #include "messages.hpp"
 
-Signature RawBlock::sign(Private_Key sk){
-    // ECDSA Schoolbook
+static void mysha512(unsigned char message[64], unsigned char digest[64]){
+  EVP_MD_CTX *mdctx;
+  const EVP_MD *md;
+  unsigned int md_len, i;
+
+  OpenSSL_add_all_digests();
+  md = EVP_get_digestbyname("SHA512");
+
+  if(!md) {
+        printf("Unknown message digest\n");
+        exit(1);
+  }
+
+  mdctx = EVP_MD_CTX_create();
+  EVP_DigestInit_ex(mdctx, md, NULL);
+  EVP_DigestUpdate(mdctx, message, 64);
+  EVP_DigestFinal_ex(mdctx, digest, &md_len);
+  EVP_MD_CTX_destroy(mdctx);
+
+  printf("Digest is: ");
+  for(i = 0; i < md_len; i++)
+        printf("%02x", digest[i]);
+  printf("\n");
+
+  /* Call this once before exit. */
+  EVP_cleanup();
+}
+
+Signature RawBlock::sign(Private_Key &sk){
+  // ECDSA Schoolbook
   // Calculate hash of message
   unsigned char digest[SHA512_DIGEST_LENGTH];
-  const char *input = (const char*) element;
+  std::cout << "Encoded Rawblock: " << enc() << std::endl;
+  mysha512(element, digest);
 
-  SHA512((unsigned char*)&input, strlen(input), (unsigned char*)&digest);
-
-  std::cout << digest << std::endl;
-  std::cout << SHA512_DIGEST_LENGTH << std::endl;
-
-  char mdString[SHA512_DIGEST_LENGTH*2+1];
-  for(int i = 0; i < SHA512_DIGEST_LENGTH; i++)
-         sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
-    printf("SHA512 digest: %s\n", mdString);
   // Convert hash to scalar
   Scalar z;
   z.frombytes(digest);
@@ -41,6 +61,7 @@ Signature RawBlock::sign(Private_Key sk){
 
   // Invert k
   Scalar k_inv;
+  k_inv = invert(k);
 
   // Calculate s
   Scalar s;

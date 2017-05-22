@@ -16,7 +16,7 @@ private:
 public:
   void frombytes(const unsigned char in[64]);
   void tobytes(unsigned char out[64]);
-  Signature sign(Private_Key sk);
+  Signature sign(Private_Key& sk);
   bool verify(Signature sig, Public_Key sk);
 
   // RawBlocks must be en and decodable
