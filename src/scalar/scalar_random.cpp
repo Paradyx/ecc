@@ -7,7 +7,7 @@ void Scalar::fromrandom(){
 
   unsigned char tmp[64];
 
-  for (int i = 0; i < sizeof(tmp); ++i) {
+  for (unsigned int i = 0; i < sizeof(tmp); ++i) {
     tmp[i] = distribution(generator);
   }
   frombytes(tmp);

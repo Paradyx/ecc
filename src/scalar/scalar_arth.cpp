@@ -20,3 +20,7 @@ Scalar invert(Scalar& a){
   assert (0 != mpz_invert(result.element, a.element, Scalar::modulus));
   return result;
 }
+
+bool operator==(const Scalar& a, const Scalar& b){
+  return (0 == mpz_cmp(a.element, b.element));
+}

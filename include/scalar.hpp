@@ -30,6 +30,7 @@ public:
 
   friend Scalar operator+(const Scalar& a, const Scalar& b);
   friend Scalar operator*(const Scalar& a, const Scalar& b);
+  friend bool operator==(const Scalar& a, const Scalar& b);
   friend void scalarmult(Point& q, Scalar& d, Point& p);
 };
 
