@@ -12,7 +12,7 @@ Public_Key Private_Key::get_pub(){
   Debug::Write("Generating Public Key..");
   Public_Key pub;
   Point base;
-  base.frombytes(M511.g);
+  base.frombytes(M511.gx, M511.gy);
   scalarmult(pub, *this, base);
   return pub;
 }
