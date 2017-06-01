@@ -27,10 +27,29 @@ public:
 
   friend void invert(Fe& a);
   friend void cswap(Fe& a, Fe& b, unsigned int condition);
+  // Constant operations
   friend Fe a24(const Fe& a);
+  friend Fe mulA(const Fe& a);
+  friend Fe retA();
+  friend Fe a2(const Fe& a);
+
   friend Fe operator+(const Fe& a, const Fe& b);
   friend Fe operator*(const Fe& a, const Fe& b);
   friend Fe operator-(const Fe& a, const Fe& b);
+  friend bool operator==(const Fe& a, const Fe& b);
+
 };
+
+void invert(Fe& a);
+void cswap(Fe& a, Fe& b, unsigned int condition);
+// Constant operations
+Fe a24(const Fe& a);
+Fe mulA(const Fe& a);
+Fe constA();
+Fe a2(const Fe& a);
+
+Fe operator+(const Fe& a, const Fe& b);
+Fe operator*(const Fe& a, const Fe& b);
+Fe operator-(const Fe& a, const Fe& b);
 
 #endif //M511_FINITEFIELDELEMENT_HPP
