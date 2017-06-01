@@ -1,50 +1,17 @@
 #include "point.hpp"
 #include "scalar.hpp"
+#include "param.hpp"
 #include "fe.hpp"
 
 #include <assert.h>
 #include <iostream>
-
-static void doubleandadd(Fe& x2, Fe& z2, Fe& x3, Fe& z3, const Fe& x1){
-  //
-  Fe tmp1;
-  Fe tmp2;
-  Fe tmp3;
-  Fe tmp4;
-  // First level
-  tmp1 = x2 + z2;
-  tmp2 = x2 - z2;
-  tmp3 = x3 + z3;
-  tmp4 = x3 - z3;
-  // Secod level
-  tmp3 = tmp3 * tmp2;
-  tmp4 = tmp4 * tmp1;
-  tmp1 = tmp1 * tmp1;
-  tmp2 = tmp2 * tmp2;
-  // Third level
-  x2   = tmp1 * tmp2;
-  tmp2 = tmp1 - tmp2;
-  x3   = tmp3 * tmp4;
-  tmp4 = tmp3 - tmp4; //tmp3 is used for column 2 from this point on
-
-  // Fourth level
-  tmp3 = a24(tmp2);
-  x3   = x3   * x3;
-  tmp4 = tmp4 * tmp4;
-
-  // Fifth level
-  tmp3 = tmp1 + tmp3;
-  z3   = tmp4 * x1;
-
-  // Sixth level
-  z2 = tmp3 * tmp2;
-}
+#include "debug.hpp"
 
 static unsigned int getbyte(const unsigned char* const d, int i){
   assert(i >= 0);
   unsigned int placeinarray = i >> 3;
   unsigned char bitinbyte = 1 << (i & 7);
-  unsigned char di = d[i] & bitinbyte;
+  unsigned char di = d[placeinarray] & bitinbyte;
   return di;
 }
 
@@ -55,12 +22,10 @@ Also very analogue to the ref10 implementation.
 q, p and d must point to Bytearrays of length 64.
 */
 
-void scalarmult(Point& q, Scalar& d, Point& p){
-  Fe x1;
-  Fe x2;
-  Fe z2;
-  Fe x3;
-  Fe z3;
+void scalarmult(Point& Q, Scalar& d, Point& P){
+  // P1 = P3-P2
+  Point P1, P2, P3;
+
   int i;
   unsigned char d_[64];
   d.tobytes(d_);
@@ -69,15 +34,16 @@ void scalarmult(Point& q, Scalar& d, Point& p){
 
   // The following comments reference the Wikipedia description of a Montgomery ladder
   // Used in the implementation of the addition.
-  x1 = p.x;
+  P1.x = P.x;
+  P1.y = P.y;
 
   // R0 = 0
-  x2.to1();
-  z2.to0();
+  P2.x.to1();
+  P2.z.to0();
 
   // R1 = P
-  x3 = x1;
-  z3.to1();
+  P3.x = P.x;
+  P3.z.to1();
 
   // The following code at (*) allways computes
   // (x2, z2) = 2*(x2, z2)
@@ -110,8 +76,7 @@ void scalarmult(Point& q, Scalar& d, Point& p){
     di = getbyte(d_, i);
     // Dont swap if we need a swap from previous round
     swap ^= di;
-    cswap(x2, x3, swap);
-    cswap(z2, z3, swap);
+    cswap(P2, P3, swap);
 
     //(*)
     // R0 ← point_double(R0) if di = 0 or
@@ -119,24 +84,36 @@ void scalarmult(Point& q, Scalar& d, Point& p){
     //
     // R1 ← point_add(R0, R1) if di = 1 or
     // R0 ← point_add(R1, R0) if di = 1
-    doubleandadd(x2, z2, x3, z3, x1);
+    doubleandadd(P2, P3, P1.x);
 
     //memorize if another swap is necessary
     swap = di;
   }
-
   // do the final swap if necessary
-  cswap(x2, x3, swap);
-  cswap(z2, z3, swap);
+  cswap(P2, P3, swap);
 
-  // Project point (x2, z2) to (x2/z2, 1)
-  // return R0
-  invert(z2);
-  x2 = x2 * z2;
-  q.x = x2;
+  //Recover y-coordinate
+  recovery(P1, P2, P3);
+
+  // Project point (x2, y2, z2) to (x2/z2,y2/z2 1)
+  project(P2);
+  Q = P2;
 }
 
+//Special cases of the scalar multiplication
+void scalarmult_base(Point &Q, Scalar& d){
+  Point G;
+  G.frombytes(M511.gx, M511.gy);
+  scalarmult(Q, d, G);
+}
 
-void scalarmult(unsigned char* q, const unsigned char* const d, const unsigned char* const p){
-  //TODO: Create points from bytes and run above function
+void scalarmult_n(Point &Q, Point &P){
+  Scalar n;
+  //n.frombytes(M511.n);
+  //scalarmult(Q, d, G);
+  //TODO: Do actually the multiplication n times, without reducing n to 0.
+}
+
+void double_scalarmult(Point& x, Scalar& u1, Scalar& u2, Point& Q){
+
 }

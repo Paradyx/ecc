@@ -5,6 +5,7 @@
 #include "mysha.hpp"
 #include "keys.hpp"
 #include "scalar.hpp"
+#include "point.hpp"
 #include "messages.hpp"
 
 Signature RawBlock::sign(Private_Key &sk){
@@ -14,33 +15,29 @@ Signature RawBlock::sign(Private_Key &sk){
   std::cout << "Encoded Rawblock: " << enc() << std::endl;
   mysha512(element, digest);
 
-  // Convert hash to scalar
   Scalar z;
-  z.frombytes(digest);
-
-  // Choose random k
   Scalar k;
+  Scalar s;
+  Scalar r;
+  Point x;
+  Signature sig;
+
+  // Convert hash to scalar
+  z.frombytes(digest);
+  // Choose random k
   k.fromrandom();
 
-  // Generate Basepoint
-  Point g;
-  g.frombytes(M511.g);
-
   // Calculate r
-  Point x;
-  scalarmult(x, k, g);
-  Scalar r = x.toscalar();
+  scalarmult_base(x, k);
+  r = x.toscalar();
 
   // Invert k
-  Scalar k_inv;
-  k_inv = invert(k);
+  k = invert(k);
 
   // Calculate s
-  Scalar s;
-  s = k_inv*(z+r*sk);
+  s = k*(z+r*sk);
 
   // Resulting Signature: (s,r)
-  Signature sig;
   sig.s = s;
   sig.r = r;
   return sig;
