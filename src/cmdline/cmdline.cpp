@@ -4,13 +4,7 @@
 
 #include "debug.hpp"
 
-#include "cmdline/cmdline_box.hpp"
-#include "cmdline/cmdline_box_open.hpp"
-#include "cmdline/cmdline_encrypt.hpp"
-#include "cmdline/cmdline_decrypt.hpp"
-#include "cmdline/cmdline_sign.hpp"
-#include "cmdline/cmdline_verify.hpp"
-#include "cmdline/cmdline_keygen.hpp"
+#include "cmdline.hpp"
 
 namespace cmdline{
   static const char USAGE[] =
@@ -32,6 +26,7 @@ namespace cmdline{
       decrypt       decrypt a message with a secret key.
       sign          sign a message with a secret key.
       verify        verify a signature of a message to a given public key.
+      test          run test.
 
     See 'ecc <commands> --help' for more information of the specific command.
   )";
@@ -52,9 +47,9 @@ namespace cmdline{
 
     Debug::Write("Debug on");
 
-    for(auto const& arg : args) {
-        std::cout << arg.first <<  arg.second << std::endl;
-    }
+    // for(auto const& arg : args) {
+    //     std::cout << arg.first <<  arg.second << std::endl;
+    // }
 
     std::string command = args["<command>"].asString();
     std::vector<std::string> subargs = args["<args>"].asStringList();
@@ -75,6 +70,8 @@ namespace cmdline{
       cmdline_sign(subargs);
     else if (command == "verify")
       cmdline_verify(subargs);
+    else if (command == "test")
+      cmdline_test(subargs);
     else
       std::cout << args["<commands>"] << "is not a valid command. See 'ecc --help'." << std::endl;
   }

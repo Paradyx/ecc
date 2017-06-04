@@ -1,4 +1,4 @@
-#include "cmdline/cmdline_keygen.hpp"
+#include "cmdline.hpp"
 
 #include "docopt.h"
 #include <cstring>

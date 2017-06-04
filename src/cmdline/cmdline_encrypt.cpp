@@ -1,4 +1,4 @@
-#include "cmdline/cmdline_encrypt.hpp"
+#include "cmdline.hpp"
 
 #include "docopt.h"
 #include <string>

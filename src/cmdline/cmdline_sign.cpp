@@ -1,4 +1,4 @@
-#include "cmdline/cmdline_sign.hpp"
+#include "cmdline.hpp"
 
 #include "docopt.h"
 #include <iostream>
@@ -56,7 +56,7 @@ namespace cmdline {
     if (keyfile.is_open()){
       keyfile.seekg (0, std::ios::end);
       size = keyfile.tellg();
-      if (size != 64) std::cerr << "ERROR: Wrong keysize: " << size << "\n";
+      if (size != 128) std::cerr << "ERROR: Wrong keysize: " << size << "\n";
       keyfile.seekg (0, std::ios::beg);
       keyfile.read (key_c, size);
       keyfile.close();

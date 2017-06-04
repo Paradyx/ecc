@@ -1,4 +1,4 @@
-#include "cmdline/cmdline_box.hpp"
+#include "cmdline.hpp"
 
 #include "docopt.h"
 #include <string>
