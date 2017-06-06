@@ -15,6 +15,8 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage{makecell}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 \renewcommand\theadalign{cb}
 \renewcommand\theadfont{\bfseries}
 \renewcommand\theadgape{\Gape[4pt]}
@@ -45,11 +47,60 @@
 \begin{frame}{Outline}
 \begin{itemize}
 %	\item Recap: Elliptic Curve Cryptography with M-511
-	\item What goals have we had?
-	\item What have we done?
-	\item What have we learned?
+	\item How to generate a Curve?
+	\item Our attempt to implement M-511
+	\item Lessons Learned
 \end{itemize}
 \end{frame} 
+\begin{frame}{Structure of Elliptic Curve Cryptography}
+	\tikzstyle{box} = [draw, fill=blue!10, rectangle, minimum width=4cm]
+	\tikzstyle{arrow} = [thick, ->, >=stealth]
+	\begin{tikzpicture}
+	[align=center]
+	
+	\node [box] (f) 
+	{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
+	\node [box](ec) 
+	[above=0.5cm of f]
+	{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
+	\node [box](sg)
+	[above=0.5cm of ec]
+	{Cyclic Subgroup \\ $(\langle P\rangle, \oplus)$ \\ of size $l$};
+	\node [box](sc)
+	[right=1cm of sg] 
+	{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
+	\node (sm)
+	[above right=0.5cm and -1.3cm of sg]
+	{Scalar multiplication $*$};
+	
+	\draw [arrow] (f)--(ec);
+	\draw [arrow] (ec)--(sg);
+	\draw [arrow] (sg)--(sm);
+	\draw [arrow] (sc)--(sm);
+	\draw [arrow, double] (sg)--(sc);
+	
+	\end{tikzpicture}
+\end{frame}
+\begin{frame}{How to generate a curve?}
+\begin{enumerate}
+	\item Choose the Shapes of the curve
+	\begin{figure}
+		\begin{tikzpicture}
+		\end{tikzpicture}
+	\end{figure}
+	\item Choose a ''big'' field $\mathcal{K}$ (e.g. $\mathbb{F}_p$)
+	\item Choose $A \text{ and } B \in \mathcal{K}$ 
+	\item Count number of point on the elliptic curve 
+	\[n = \#E\{\mathcal{K}\}\]
+	if the curve is to small choose other parameter. 
+	\item find biggest prime factor $l$ of $n$ \[n = l \cdot h\]
+	\item we call $h$ the cofactor \[h = \frac{n}{l}\]
+	if the cofactor $h$ is to big/ the prime factor $l$ is to small choose other parameter.
+	\item 
+	
+\end{enumerate}
+\end{frame} 
+
 
 %\begin{frame}
 %\frametitle{Group over Eliptic Curve}
@@ -111,13 +162,6 @@
 \includegraphics[scale=0.1]{img/jirisan.jpeg}}
 \end{figure}  
 \end{frame}
-
-\begin{frame}{How to generate a curve?}
-variety of elliptic curves
-\begin{figure}[htp] \centering{
-\includegraphics[scale=0.23]{img/shapes.png}}
-\end{figure}  
-\end{frame} 
 
 
 \begin{frame}
