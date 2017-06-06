@@ -1,5 +1,6 @@
 #include "point.hpp"
 #include "scalar.hpp"
+#include "iostream"
 
 void Point::frombytes(const unsigned char inx[64], const unsigned char iny[64]){
   x.frombytes(inx);
@@ -30,8 +31,17 @@ void Point::operator=(const Point& rhs){
 }
 
 bool equal(Point& P, Point& Q){
-  bool b1, b2;
-  b1 = P.x == Q.x;
-  b2 = P.y == Q.y;
-  return !(b1|b2);
+  bool b1, b2, b3;
+  b1 = (P.x == Q.x);
+  b2 = (P.y == Q.y);
+  b3 = (P.z == Q.z);
+  return (b1|b2);
+}
+
+void Point::print(){
+  std::cout << "Point(" << std::endl;
+  x.print();
+  y.print();
+  z.print();
+  std::cout << ")" << std::endl;
 }

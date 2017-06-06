@@ -8,7 +8,7 @@
 
 class Point;
 
-class Scalar : public Block {
+class Scalar : public Block64 {
 private:
   mpz_t element;
   static mpz_t modulus;

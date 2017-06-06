@@ -27,6 +27,7 @@ void doubleandadd(Point& P, Point& Q, Fe& x1){
   // t3 = a24*E
   // t4 = BB+t3
   // Z4 = E*t4
+
   Fe A, B, C, D, E, AA, BB, DA, CB, t0, t1, t2, t3, t4;
   A = x2+z2;
   AA = A*A;

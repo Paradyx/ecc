@@ -5,10 +5,10 @@
 Fe a24(const Fe& a){
   Fe result;
   // A = 530438
-  // (A - 2) /4 = 132609 <-- we use thisone in this implementation
-  // (A + 2) /4 = 132611
+  // (A - 2) /4 = 132609
+  // (A + 2) /4 = 132611<-- we use thisone in this implementation
 
-  mpz_mul_ui (result.element, a.element, (unsigned long int) 132609);
+  mpz_mul_ui (result.element, a.element, (unsigned long int) 132611);
   mpz_mod(result.element, result.element, Fe::modulus);
   return result;
 }

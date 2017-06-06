@@ -1,5 +1,6 @@
 #include "point.hpp"
 #include "fe.hpp"
+#include "debug.hpp"
 
 void dbl(Point& R, Point& P){
   Fe A, B, C, D, E, F, CA, CCAA, CCCAAA;
@@ -14,6 +15,7 @@ void dbl(Point& R, Point& P){
   D = x1*x1;
   D = D+D+D;
   C = D+C;
+  A = y1+y1;
   invert(A);
   CA = C*A;
   CCAA = CA*CA;

@@ -9,7 +9,7 @@ class Plaintext;
 class Ciphertext;
 class Signature;
 
-class RawBlock : public Block {
+class RawBlock : public Block64 {
 private:
   unsigned char element[64];
 

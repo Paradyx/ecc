@@ -8,7 +8,7 @@
 
 class Scalar;
 
-class Point : public Block {
+class Point : public Block128 {
 private:
   friend void doubleandadd(Point& P, Point&Q, Fe& x1);
   friend void add(Point& R, Point& P, Point& Q);
@@ -22,6 +22,7 @@ public:
   void frombytes(const unsigned char inxy[128]);
   void frombytes(const unsigned char inx[64], const unsigned char iny[64]);
   void tobytes(unsigned char out[128]);
+  void print();
   Scalar toscalar();
 
   void operator=(const Point& rhs);
