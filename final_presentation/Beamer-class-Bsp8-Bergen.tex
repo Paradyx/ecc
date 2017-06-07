@@ -45,6 +45,8 @@
 \newcommand{\seti}{\setcounter{saveenumi}{\value{enumi}}}
 \newcommand{\conti}{\setcounter{enumi}{\value{saveenumi}}}
 
+\resetcounteronoverlays{saveenumi}
+
 \begin{document}
 \title{Implementation of an ECC with M-511} 
 \subtitle{CS448 - Introduction to IT Security}
@@ -66,38 +68,9 @@
 \end{frame}
 
 \begin{frame}{Structure of Elliptic Curve Cryptography}
-\begin{tikzpicture}
-[align=center]
-
-\node [box2] (f) 
-{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
-\node [box2](ec) 
-[above=0.5cm of f]
-{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
-\node [box2](sg)
-[above=0.5cm of ec]
-{Cyclic Subgroup \\ $(\langle G\rangle, \oplus)$ \\ of size $l$};
-\node [box2](sc)
-[right=1cm of sg] 
-{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
-\node (sm)
-[above right=0.5cm and -1.3cm of sg]
-{Scalar multiplication $*$};
-
-\draw [arrow] (f)--(ec);
-\draw [arrow] (ec)--(sg);
-\draw [arrow] (sg)--(sm);
-\draw [arrow] (sc)--(sm);
-\draw [arrow, double] (sg)--(sc);
-
-\end{tikzpicture}
-\end{frame} 
-
-\begin{frame}{Structure of Elliptic Curve Cryptography}
 	\begin{tikzpicture}
 	[align=center]
-	
-	\node [box2, fill=red!10] (f) 
+	\node [box2] (f) 
 	{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
 	\pause
 	\node [box2](ec) 
@@ -120,41 +93,62 @@
 	{Scalar multiplication $*$};
 	\draw [arrow] (sg)--(sm);
 	\draw [arrow] (sc)--(sm);
+	\end{tikzpicture}
+\end{frame} 
+
+\begin{frame}{Structure of Elliptic Curve Cryptography}
+	\begin{tikzpicture}
+	[align=center]
+	\node [box2, fill=red!10] (f) 
+	{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
+	\node [box2](ec) 
+	[above=0.5cm of f]
+	{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
+	\node [box2](sg)
+	[above=0.5cm of ec]
+	{Cyclic Subgroup \\ $(\langle G\rangle, \oplus)$ \\ of size $l$};
+	\node [box2](sc)
+	[right=1cm of sg] 
+	{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
+	\node (sm)
+	[above right=0.5cm and -1.3cm of sg]
+	{Scalar multiplication $*$};
 	
-	
-	
-	
-	
+	\draw [arrow] (f)--(ec);
+	\draw [arrow] (ec)--(sg);
+	\draw [arrow] (sg)--(sm);
+	\draw [arrow] (sc)--(sm);
+	\draw [arrow, double] (sg)--(sc);
 	
 	\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Structure of Elliptic Curve Cryptography}
-\begin{tikzpicture}
-[align=center]
-
-\node [box2] (f) 
-{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
-\node [box2, fill=red!10](ec) 
-[above=0.5cm of f]
-{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
-\node [box2](sg)
-[above=0.5cm of ec]
-{Cyclic Subgroup \\ $(\langle G\rangle, \oplus)$ \\ of size $l$};
-\node [box2](sc)
-[right=1cm of sg] 
-{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
-\node (sm)
-[above right=0.5cm and -1.3cm of sg]
-{Scalar multiplication $*$};
-
-\draw [arrow] (f)--(ec);
-\draw [arrow] (ec)--(sg);
-\draw [arrow] (sg)--(sm);
-\draw [arrow] (sc)--(sm);
-\draw [arrow, double] (sg)--(sc);
-
-\end{tikzpicture}
+	\begin{tikzpicture}
+	[align=center]
+	
+	\node [box2] (f) 
+	{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
+	\node [box2, fill=red!10](ec) 
+	[above=0.5cm of f]
+	{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
+	\node [box2](sg)
+	[above=0.5cm of ec]
+	{Cyclic Subgroup \\ $(\langle G\rangle, \oplus)$ \\ of size $l$};
+	\node [box2](sc)
+	[right=1cm of sg] 
+	{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
+	\node (sm)
+	[above right=0.5cm and -1.3cm of sg]
+	{Scalar multiplication $*$};
+	
+	\draw [arrow] (f)--(ec);
+	\draw [arrow] (ec)--(sg);
+	\draw [arrow] (sg)--(sm);
+	\draw [arrow] (sc)--(sm);
+	\draw [arrow, double] (sg)--(sc);
+	
+	\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Generate the Elliptic Curve}
@@ -185,6 +179,7 @@
 	\draw [arrow] (mc) -- (tec);
 	\draw [arrow] (tec) -- (mc);
 	\end{tikzpicture}
+	Formulas from https://hyperelliptic.org/EFD \cite{hyperelliptic}
 	\pause
 	\item Choose parameter e.g. $A \text{ and } B \in \mathbb{F}_p$ 
 	\seti
@@ -292,7 +287,7 @@
 	\node (p)
 	[align=left, right=1cm of f]
 	{
-		Montogmery Curve\\
+		Montogmery Curve \cite{cryptoeprint:2013:647}\\
 		$By^2=x^3+Ax^2+x$ \\
 		$p = 2^{511} - 187$ \\ 
 		$A = 530438, B = 1$ \\
