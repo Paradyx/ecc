@@ -18,7 +18,11 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage{makecell}
+%\usepackage{enumitem}
 \usepackage{tikz}
+\tikzstyle{box2} = [draw, fill=blue!10, rounded corners, rectangle, minimum width=4cm]
+\tikzstyle{box1} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=blue!5, align=center]
+\tikzstyle{arrow} = [thick, ->, >=stealth]
 \usetikzlibrary{positioning}
 \renewcommand\theadalign{cb}
 \renewcommand\theadfont{\bfseries}
@@ -37,6 +41,10 @@
 
 \usepackage{graphics}
 
+\newcounter{saveenumi}
+\newcommand{\seti}{\setcounter{saveenumi}{\value{enumi}}}
+\newcommand{\conti}{\setcounter{enumi}{\value{saveenumi}}}
+
 \begin{document}
 \title{Implementation of an ECC with M-511} 
 \subtitle{CS448 - Introduction to IT Security}
@@ -54,94 +62,251 @@
 	\item Our attempt to implement M-511
 	\item Lessons Learned
 \end{itemize}
-\end{frame} 
+
+\end{frame}
+
 \begin{frame}{Structure of Elliptic Curve Cryptography}
-	\tikzstyle{box} = [draw, fill=blue!10, rectangle, minimum width=4cm]
-	\tikzstyle{arrow} = [thick, ->, >=stealth]
+\begin{tikzpicture}
+[align=center]
+
+\node [box2] (f) 
+{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
+\node [box2](ec) 
+[above=0.5cm of f]
+{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
+\node [box2](sg)
+[above=0.5cm of ec]
+{Cyclic Subgroup \\ $(\langle G\rangle, \oplus)$ \\ of size $l$};
+\node [box2](sc)
+[right=1cm of sg] 
+{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
+\node (sm)
+[above right=0.5cm and -1.3cm of sg]
+{Scalar multiplication $*$};
+
+\draw [arrow] (f)--(ec);
+\draw [arrow] (ec)--(sg);
+\draw [arrow] (sg)--(sm);
+\draw [arrow] (sc)--(sm);
+\draw [arrow, double] (sg)--(sc);
+
+\end{tikzpicture}
+\end{frame} 
+
+\begin{frame}{Structure of Elliptic Curve Cryptography}
 	\begin{tikzpicture}
 	[align=center]
 	
-	\node [box] (f) 
+	\node [box2, fill=red!10] (f) 
 	{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
-	\node [box](ec) 
+	\pause
+	\node [box2](ec) 
 	[above=0.5cm of f]
 	{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
-	\node [box](sg)
+	\draw [arrow] (f)--(ec);
+	\pause
+	\node [box2](sg)
+	[above=0.5cm of ec]
+	{Cyclic Subgroup \\ $(\langle G\rangle, \oplus)$ \\ of size $l$};
+	\draw [arrow] (ec)--(sg);
+	\pause
+	\node [box2](sc)
+	[right=1cm of sg] 
+	{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
+	\draw [arrow, double] (sg)--(sc);
+	\pause
+	\node (sm)
+	[above right=0.5cm and -1.3cm of sg]
+	{Scalar multiplication $*$};
+	\draw [arrow] (sg)--(sm);
+	\draw [arrow] (sc)--(sm);
+	
+	
+	
+	
+	
+	
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Structure of Elliptic Curve Cryptography}
+\begin{tikzpicture}
+[align=center]
+
+\node [box2] (f) 
+{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
+\node [box2, fill=red!10](ec) 
+[above=0.5cm of f]
+{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
+\node [box2](sg)
+[above=0.5cm of ec]
+{Cyclic Subgroup \\ $(\langle G\rangle, \oplus)$ \\ of size $l$};
+\node [box2](sc)
+[right=1cm of sg] 
+{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
+\node (sm)
+[above right=0.5cm and -1.3cm of sg]
+{Scalar multiplication $*$};
+
+\draw [arrow] (f)--(ec);
+\draw [arrow] (ec)--(sg);
+\draw [arrow] (sg)--(sm);
+\draw [arrow] (sc)--(sm);
+\draw [arrow, double] (sg)--(sc);
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Generate the Elliptic Curve}
+\begin{enumerate}
+	\item Choose the Shapes of the curve
+	\begin{tikzpicture}[node distance= 1.4cm]
+	
+	\node (wc) [box1] {
+		Elliptic Curve / Weierstrass Curve \\
+		$y^{2}+A_{1}xy+A_{3}y=x^{3}+A_{2}x^{2}+A_{4}x+A_{6}$};
+	\node (swc) [box1, below of=wc] {
+		Short Weierstrass Curve\\
+		$y^2=x^3+Ax+B$};
+	\node (tec) [box1, below of=swc, xshift = -2.5cm] {
+		Twisted Edward Curve \\
+		$Ax^2+y^2=1+Dx^2y^2$};
+	\node (ec) [box1, below of=tec] {
+		Edward Curve\\
+		$x^2+y^2=C^2(1+Dx^2y^2)$};
+	\node (mc) [box1, below of=swc, xshift = 2.5cm] {
+		Montogmery Curve\\
+		$By^2=x^3+Ax^2+x$};
+	
+	\draw [arrow] (swc) -- (wc);
+	\draw [arrow] (tec) -- (swc);
+	\draw [arrow] (mc) -- (swc);
+	\draw [arrow] (ec) -- (tec);
+	\draw [arrow] (mc) -- (tec);
+	\draw [arrow] (tec) -- (mc);
+	\end{tikzpicture}
+	\pause
+	\item Choose parameter e.g. $A \text{ and } B \in \mathbb{F}_p$ 
+	\seti
+\end{enumerate}
+\end{frame}
+\begin{frame}{Generate the Elliptic Curve II}
+\begin{enumerate}
+	\conti
+	\item Count number of point on the elliptic curve 
+	\pause
+	\[n = |E(\mathbb{F}_p)|\]
+	if the curve is to small choose other parameter. 
+	\item find biggest prime factor $l$ of $n$ \[n = l \cdot h\]
+	\pause
+	\item we call $h$ the cofactor \[h = \frac{n}{l}\]
+	if the cofactor $h$ is to big/ the prime factor $l$ is to small choose other parameter.
+	\seti
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Structure of Elliptic Curve Cryptography}
+\begin{tikzpicture}
+[align=center]
+
+\node [box2] (f) 
+{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
+\node [box2](ec) 
+[above=0.5cm of f]
+{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
+\node [box2, fill=red!10](sg)
+[above=0.5cm of ec]
+{Cyclic Subgroup \\ $(\langle G\rangle, \oplus)$ \\ of size $l$};
+\node [box2](sc)
+[right=1cm of sg] 
+{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
+\node (sm)
+[above right=0.5cm and -1.3cm of sg]
+{Scalar multiplication $*$};
+
+\draw [arrow] (f)--(ec);
+\draw [arrow] (ec)--(sg);
+\draw [arrow] (sg)--(sm);
+\draw [arrow] (sc)--(sm);
+\draw [arrow, double] (sg)--(sc);
+
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Fine a big cyclic subgroup}
+\begin{enumerate}
+	\conti
+	\item Choose random point $P$ on the curve
+	\item Calculate \[G = h*P\]\\
+	\[l*G = l*h*P = l \cdot \frac{n}{l} * P = n*P = O\]
+	\[\Rightarrow |\langle G\rangle| = l\]
+	$l$ is prime
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Structure of Elliptic Curve Cryptography}
+\begin{tikzpicture}
+[align=center]
+
+\node [box2] (f) 
+{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
+\node [box2](ec) 
+[above=0.5cm of f]
+{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
+\node [box2](sg)
+[above=0.5cm of ec]
+{Cyclic Subgroup \\ $(\langle P\rangle, \oplus)$ \\ of size $l$};
+\node [box2, fill=red!10](sc)
+[right=1cm of sg] 
+{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
+\node (sm)
+[above right=0.5cm and -1.3cm of sg]
+{Scalar multiplication $*$};
+
+\draw [arrow] (f)--(ec);
+\draw [arrow] (ec)--(sg);
+\draw [arrow] (sg)--(sm);
+\draw [arrow] (sc)--(sm);
+\draw [arrow, double] (sg)--(sc);
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{The Curve M-511}
+	\begin{tikzpicture}
+	[align=center]
+	
+	\node [box2] (f) 
+	{Finite Field \\ $(\mathbb{F}_p, +, \cdot)$ \\of size $p$};
+	\node [box2](ec) 
+	[above=0.5cm of f]
+	{Elliptic Curve \\ $(E(\mathbb{F}_p), \oplus)$ \\of size $n$};
+	\node [box2](sg)
 	[above=0.5cm of ec]
 	{Cyclic Subgroup \\ $(\langle P\rangle, \oplus)$ \\ of size $l$};
-	\node [box](sc)
+	\node [box2](sc)
 	[right=1cm of sg] 
 	{Scalar \\ $\mathbb{F}_l$ \\ of size $l$};
 	\node (sm)
 	[above right=0.5cm and -1.3cm of sg]
 	{Scalar multiplication $*$};
+	\node (p)
+	[align=left, right=1cm of f]
+	{
+		Montogmery Curve\\
+		$By^2=x^3+Ax^2+x$ \\
+		$p = 2^{511} - 187$ \\ 
+		$A = 530438, B = 1$ \\
+	};
 	
 	\draw [arrow] (f)--(ec);
 	\draw [arrow] (ec)--(sg);
 	\draw [arrow] (sg)--(sm);
 	\draw [arrow] (sc)--(sm);
 	\draw [arrow, double] (sg)--(sc);
-	
 	\end{tikzpicture}
+	$l = 2^{508} - 107247... \text{''something big''}$ \\
+	$G = (5, 250041064556507... \text{''something even bigger''})$
 \end{frame}
-\begin{frame}{How to generate a curve?}
-\begin{enumerate}
-	\item Choose the Shapes of the curve
-	\begin{figure}
-		\begin{tikzpicture}
-		\end{tikzpicture}
-	\end{figure}
-	\item Choose a ''big'' field $\mathcal{K}$ (e.g. $\mathbb{F}_p$)
-	\item Choose $A \text{ and } B \in \mathcal{K}$ 
-	\item Count number of point on the elliptic curve 
-	\[n = \#E\{\mathcal{K}\}\]
-	if the curve is to small choose other parameter. 
-	\item find biggest prime factor $l$ of $n$ \[n = l \cdot h\]
-	\item we call $h$ the cofactor \[h = \frac{n}{l}\]
-	if the cofactor $h$ is to big/ the prime factor $l$ is to small choose other parameter.
-	\item 
-	
-\end{enumerate}
-\end{frame} 
-
-
-%\begin{frame}
-%\frametitle{Group over Eliptic Curve}
-%\begin{figure}
-%	\centering
-%	\def\svgwidth{\columnwidth}
-%	\input{img/ECClines-3.pdf_tex}
-%	\caption{Two eliptic curves over $\mathbb{R}$ \cite{wikiYassineMrabet}}
-%\end{figure}
-%\begin{itemize}
-%	\item Element: point on the curve
-%	\item $+$: 3rd intersection of a line, reflect over the x-axis
-%	\item Neutral element: "infinity", $O$
-%\end{itemize}
-%\end{frame}
-%
-%\begin{frame}
-%	\frametitle{Eliptic curves over finite fields}
-%	\begin{itemize}
-%		\item Make it discrete!
-%		\item "Random" jumps through a set of points
-%	\end{itemize}
-%	\begin{figure}
-%		\centering
-%		\def\svgwidth{\columnwidth}
-%		\input{img/Elliptic_curve_on_Z61.pdf_tex}
-%		\caption{Set of affine points of elliptic curve $y^2 = x^3 - x$ over finite field $\mathbb{F}_{61}$.}
-%	\end{figure}
-%\end{frame}
-%
-%\begin{frame}{The Elliptic Curve Discrete Logarithm Problem\cite{werner2013elliptische}}
-%An element $P$ of an elliptic curve group generates a cyclic Subgroup with order $n$\\
-%\[\langle P \rangle = \{kP : k \in \mathbb{Z} \} \]
-%\[n = ord(P) = |\langle P \rangle| \]\\ \vspace{0.5cm}
-%\textbf{The Eliptic Curve Discrete Logarithm Problem (ECDLP)}: \\
-%For a given element $P$ of an elliptic curve group and $Q \in \langle P \rangle$ determine $k$ s.t. \\
-%\[Q=kP\]
-%\end{frame}
 
 \begin{frame}{Term Project Goals}
 \begin{itemize}
@@ -176,36 +341,9 @@
 \end{frame}
 
 \begin{frame}{Curve Shapes}
-\tikzstyle{box} = [rectangle, rounded corners, minimum width=2cm, minimum height=1cm,text centered, draw=black, fill=blue!5, align=center]
-\tikzstyle{arrow} = [thick,->,>=stealth]
 \begin{figure}[!h]
 \centering
-\begin{tikzpicture}[node distance= 2cm]
 
-\node (wc) [box] {
-Elliptic Curve / Weierstrass Curve \\
-$y^{2}+A_{1}xy+A_{3}y=x^{3}+A_{2}x^{2}+A_{4}x+A_{6}$};
-\node (swc) [box, below of=wc] {
-Short Weierstrass Curve\\
-$y^2=x^3+Ax+B$};
-\node (tec) [box, below of=swc, xshift = -2.5cm] {
-Twisted Edward Curve \\
-$Ax^2+y^2=1+Dx^2y^2$};
-\node (ec) [box, below of=tec] {
-Edward Curve\\
-$x^2+y^2=C^2(1+Dx^2y^2)$};
-\node (mc) [box, below of=swc, xshift = 2.5cm] {
-Montogmery Curve\\
-$By^2=x^3+Ax^2+x$};
-
-\draw [arrow] (swc) -- (wc);
-\draw [arrow] (tec) -- (swc);
-\draw [arrow] (mc) -- (swc);
-\draw [arrow] (ec) -- (tec);
-\draw [arrow] (mc) -- (tec);
-\draw [arrow] (tec) -- (mc);
-
-\end{tikzpicture}
 \end{figure}
 \end{frame} 
 
